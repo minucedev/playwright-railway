@@ -14,9 +14,9 @@ export class LoginPage {
     this.loginButton = page.getByRole("button", { name: "Login", exact: true });
   }
 
-  async fillLoginForm(username: string, password: string) {
-    await this.emailInput.fill(username);
-    await this.passwordInput.fill(password);
+  async fillLoginForm(user: User) {
+    await this.emailInput.fill(user.username);
+    await this.passwordInput.fill(user.password);
   }
 
   async submitLogin() {
@@ -24,7 +24,7 @@ export class LoginPage {
   }
 
   async login(user: User) {
-    await this.fillLoginForm(user.username, user.password);
+    await this.fillLoginForm(user);
     await this.submitLogin();
   }
 

@@ -19,12 +19,6 @@ export class HomePage {
     });
   }
 
-  async goto() {
-    await test.step("Navigate to Railway website", async () => {
-      await this.page.goto("/");
-    });
-  }
-
   async clickLogin() {
     await test.step("Click login link", async () => {
       await this.loginLink.click();
@@ -33,7 +27,6 @@ export class HomePage {
 
   async navigateToLogin() {
     await test.step("Navigate to login page", async () => {
-      await this.goto();
       await this.clickLogin();
     });
   }

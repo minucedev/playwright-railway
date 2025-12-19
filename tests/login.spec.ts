@@ -43,10 +43,16 @@ test.describe("Login Functionality", () => {
     await test.step("Navigate to login page", async () => {
       await homePage.clickLogin();
     });
-    await loginPage.verifyLoginFormVisible();
-    await loginPage.login(userInvalidPassword);
-    await loginPage.verifyErrorMessage(
-      "There was a problem with your login and/or errors exist in your form."
-    );
+    await test.step("Verify login form is visible", async () => {
+      await loginPage.verifyLoginFormVisible();
+    });
+    await test.step("Perform login with invalid password", async () => {
+      await loginPage.login(userInvalidPassword);
+    });
+    await test.step("Verify error message is displayed", async () => {
+      await loginPage.verifyErrorMessage(
+        "There was a problem with your login and/or errors exist in your form."
+      );
+    });
   });
 });

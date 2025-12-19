@@ -5,12 +5,14 @@ export class LoginPage {
   readonly emailInput: Locator;
   readonly passwordInput: Locator;
   readonly loginButton: Locator;
+  readonly errorMessage: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.emailInput = page.getByLabel("Email", { exact: false });
     this.passwordInput = page.getByLabel("Password", { exact: false });
     this.loginButton = page.getByRole("button", { name: "Login", exact: true });
+    this.errorMessage = page.locator("p.message.error.LoginForm");
   }
 
   async fillLoginForm(email: string, pass: string) {
@@ -36,6 +38,12 @@ export class LoginPage {
       await expect(this.emailInput).toBeVisible();
       await expect(this.passwordInput).toBeVisible();
       await expect(this.loginButton).toBeVisible();
+    });
+  }
+
+  async verifyErrorMessage(expectedMessage: string) {
+    await test.step(`Verify error message "${expectedMessage}" is displayed`, async () => {
+      await expect(this.errorMessage).toContainText(expectedMessage);
     });
   }
 }

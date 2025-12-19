@@ -1,5 +1,5 @@
 import { type Page, type Locator, expect, test } from "@playwright/test";
-import { User } from '../types/users';
+import { User } from "../types/users";
 
 export class LoginPage {
   readonly page: Page;
@@ -15,16 +15,12 @@ export class LoginPage {
   }
 
   async fillLoginForm(username: string, password: string) {
-    await test.step("Fill email and password", async () => {
-      await this.emailInput.fill(username);
-      await this.passwordInput.fill(password);
-    });
+    await this.emailInput.fill(username);
+    await this.passwordInput.fill(password);
   }
 
   async submitLogin() {
-    await test.step("Click login button", async () => {
-      await this.loginButton.click();
-    });
+    await this.loginButton.click();
   }
 
   async login(user: User) {
@@ -33,16 +29,14 @@ export class LoginPage {
   }
 
   async verifyLoginFormVisible() {
-    await test.step("Verify login form elements are visible", async () => {
-      await expect
-        .soft(this.emailInput, "Email input should be visible")
-        .toBeVisible();
-      await expect
-        .soft(this.passwordInput, "Password input should be visible")
-        .toBeVisible();
-      await expect
-        .soft(this.loginButton, "Login button should be visible")
-        .toBeVisible();
-    });
+    await expect
+      .soft(this.emailInput, "Email input should be visible")
+      .toBeVisible();
+    await expect
+      .soft(this.passwordInput, "Password input should be visible")
+      .toBeVisible();
+    await expect
+      .soft(this.loginButton, "Login button should be visible")
+      .toBeVisible();
   }
 }

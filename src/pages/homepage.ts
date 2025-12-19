@@ -19,8 +19,8 @@ export class HomePage {
     });
   }
 
-  async clickLogin() {
-    await this.loginLink.click();
+  async navigateToPage(linkName: string) {
+    await this.page.getByRole("link", { name: linkName }).click();
   }
 
   async verifyWelcomeText() {

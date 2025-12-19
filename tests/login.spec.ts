@@ -6,26 +6,40 @@ import {
 } from "../src/types/users";
 
 test.describe("Login Functionality", () => {
-  test("TC01: Login successfully with valid credentials", async ({
+  test("TC01: Navigate to login page and login successfully", async ({
     loginPage,
     homePage,
   }) => {
-    await homePage.navigateToLogin();
+    await homePage.navigateToPage("Login");
     await loginPage.verifyLoginFormVisible();
     await loginPage.login(validUser);
     await homePage.verifyUserLoggedIn(validUser.username);
   });
-  test("TC02: Login with blank username", async ({ loginPage, homePage }) => {
-    await homePage.navigateToLogin();
+  test("TC02: Navigate to login page with blank username", async ({
+    loginPage,
+    homePage,
+  }) => {
+    await homePage.navigateToPage("Login");
     await loginPage.verifyLoginFormVisible();
     await loginPage.login(invalidUserBlankUsername);
   });
-  test("TC03: Login with invalid password", async ({ loginPage, homePage }) => {
-    await homePage.navigateToLogin();
+  test("TC03: Navigate to login page with invalid password", async ({
+    loginPage,
+    homePage,
+  }) => {
+    await homePage.navigateToPage("Login");
     await loginPage.verifyLoginFormVisible();
     await loginPage.login(userInvalidPassword);
     await loginPage.verifyErrorMessage(
       "There was a problem with your login and/or errors exist in your form."
     );
+  });
+
+  test("TC04: Navigate to book ticket page without login redirects to login page", async ({
+    loginPage,
+    homePage,
+  }) => {
+    await homePage.navigateToPage("Book ticket");
+    await loginPage.verifyLoginFormVisible();
   });
 });

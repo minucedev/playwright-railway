@@ -1,4 +1,4 @@
-import { test, expect } from "../src/fixtures/pom.fixtures";
+import { test } from "../src/fixtures/pom.fixtures";
 import { validUser } from "../src/types/users";
 
 test.describe("Login Functionality", () => {
@@ -8,7 +8,7 @@ test.describe("Login Functionality", () => {
   }) => {
     await homePage.navigateToLogin();
     await loginPage.verifyLoginFormVisible();
-    await loginPage.login(validUser.username, validUser.password);
+    await loginPage.login(validUser);
     await homePage.verifyUserLoggedIn(validUser.username);
   });
 

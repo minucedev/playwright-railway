@@ -19,12 +19,6 @@ export class HomePage {
     });
   }
 
-  async goto() {
-    await test.step("Navigate to Railway website", async () => {
-      await this.page.goto("/");
-    });
-  }
-
   async clickLogin() {
     await test.step("Click login link", async () => {
       await this.loginLink.click();
@@ -33,20 +27,25 @@ export class HomePage {
 
   async navigateToLogin() {
     await test.step("Navigate to login page", async () => {
-      await this.goto();
       await this.clickLogin();
     });
   }
 
   async verifyWelcomeText() {
     await test.step("Verify welcome text is visible", async () => {
-        await expect(this.welcomeText).toBeVisible();
+      await expect(
+        this.welcomeText,
+        "Welcome text should be visible"
+      ).toBeVisible();
     });
   }
 
   async verifyUserLoggedIn(username: string) {
     await test.step(`Verify user ${username} is logged in`, async () => {
-        await expect(this.userAccountText).toContainText(`Welcome ${username}`);
+      await expect(
+        this.userAccountText,
+        `User ${username} should be logged in`
+      ).toContainText(`Welcome ${username}`);
     });
   }
 }

@@ -33,15 +33,9 @@ export class LoginPage {
 
   async verifyLoginFormVisible() {
     await test.step("Verify login form elements are visible", async () => {
-      try {
-        await expect(this.emailInput).toBeVisible();
-        await expect(this.passwordInput).toBeVisible();
-        await expect(this.loginButton).toBeVisible();
-      } catch (error) {
-        throw new Error(
-          `Login form elements are not visible: ${(error as Error).message}`
-        );
-      }
+      await expect(this.emailInput).toBeVisible();
+      await expect(this.passwordInput).toBeVisible();
+      await expect(this.loginButton).toBeVisible();
     });
   }
 }

@@ -40,25 +40,13 @@ export class HomePage {
 
   async verifyWelcomeText() {
     await test.step("Verify welcome text is visible", async () => {
-      try {
         await expect(this.welcomeText).toBeVisible();
-      } catch (error) {
-        throw new Error(
-          `Welcome text is not visible: ${(error as Error).message}`
-        );
-      }
     });
   }
 
   async verifyUserLoggedIn(username: string) {
     await test.step(`Verify user ${username} is logged in`, async () => {
-      try {
         await expect(this.userAccountText).toContainText(`Welcome ${username}`);
-      } catch (error) {
-        throw new Error(
-          `User ${username} is not logged in: ${(error as Error).message}`
-        );
-      }
     });
   }
 }

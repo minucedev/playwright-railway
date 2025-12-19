@@ -1,4 +1,4 @@
-import { type Page, type Locator, expect, test } from "@playwright/test";
+import { type Page, type Locator, expect } from "@playwright/test";
 
 export class HomePage {
   readonly page: Page;
@@ -21,10 +21,6 @@ export class HomePage {
 
   async clickLogin() {
     await this.loginLink.click();
-  }
-
-  async navigateToLogin() {
-    await this.clickLogin();
   }
 
   async verifyWelcomeText() {

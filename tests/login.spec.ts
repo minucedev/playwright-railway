@@ -42,4 +42,18 @@ test.describe("Login Functionality", () => {
     await homePage.navigateToPage("Book ticket");
     await loginPage.verifyLoginFormVisible();
   });
+
+  test("TC05: Account lockout message for multiple failed logins", async ({
+    loginPage,
+    homePage,
+  }) => {
+    await homePage.navigateToPage("Login");
+    await loginPage.verifyLoginFormVisible();
+    for (let i = 0; i < 4; i++) {
+      await loginPage.login(userInvalidPassword);
+    }
+    await loginPage.verifyLockoutMessage(
+      "You have used 4 out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes."
+    );
+  });
 });

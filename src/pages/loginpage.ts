@@ -53,4 +53,10 @@ export class LoginPage {
       await expect(this.errorMessage).toContainText(expectedMessage);
     });
   }
+
+  async verifyLockoutMessage(expectedMessage: string) {
+    await test.step(`Verify lockout message "${expectedMessage}" is displayed`, async () => {
+      await expect(this.page.getByText(expectedMessage)).toBeVisible();
+    });
+  }
 }

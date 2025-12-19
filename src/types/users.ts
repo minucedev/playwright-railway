@@ -12,3 +12,7 @@ export const invalidUserBlankUsername: User = {
   username: "",
   password: "test123456",
 };
+export const userInvalidPassword: User = {
+  username: "playwright@test.com",
+  password: "wrongpassword",
+};

@@ -1,5 +1,9 @@
 import { test } from "../src/fixtures/pom.fixtures";
-import { validUser, invalidUserBlankUsername } from "../src/types/users";
+import {
+  validUser,
+  invalidUserBlankUsername,
+  userInvalidPassword,
+} from "../src/types/users";
 
 test.describe("Login Functionality", () => {
   test("TC01: Login successfully with valid credentials", async ({
@@ -16,10 +20,10 @@ test.describe("Login Functionality", () => {
     await loginPage.verifyLoginFormVisible();
     await loginPage.login(invalidUserBlankUsername);
   });
-    test("TC03: Login with invalid password", async ({ loginPage, homePage }) => {
+  test("TC03: Login with invalid password", async ({ loginPage, homePage }) => {
     await homePage.navigateToLogin();
     await loginPage.verifyLoginFormVisible();
-    await loginPage.login(validUser.username, "wr");
+    await loginPage.login(userInvalidPassword);
     await loginPage.verifyErrorMessage(
       "There was a problem with your login and/or errors exist in your form."
     );

@@ -1,5 +1,5 @@
 import { type Page, type Locator, expect, test } from "@playwright/test";
-import { User } from '../types/users';
+import { User } from "../types/users";
 
 export class LoginPage {
   readonly page: Page;
@@ -16,10 +16,10 @@ export class LoginPage {
     this.errorMessage = page.locator("p.message.error.LoginForm");
   }
 
-  async fillLoginForm(user: User) {
+  async fillLoginForm(email: string, pass: string) {
     await test.step("Fill email and password", async () => {
-      await this.emailInput.fill(user.username);
-      await this.passwordInput.fill(user.password);
+      await this.emailInput.fill(email);
+      await this.passwordInput.fill(pass);
     });
   }
 
@@ -30,7 +30,7 @@ export class LoginPage {
   }
 
   async login(user: User) {
-    await this.fillLoginForm(user);
+    await this.fillLoginForm(user.username, user.password);
     await this.submitLogin();
   }
 

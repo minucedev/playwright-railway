@@ -6,12 +6,14 @@ export class LoginPage {
   readonly emailInput: Locator;
   readonly passwordInput: Locator;
   readonly loginButton: Locator;
+  readonly errorMessage: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.emailInput = page.getByLabel("Email", { exact: false });
     this.passwordInput = page.getByLabel("Password", { exact: false });
     this.loginButton = page.getByRole("button", { name: "Login", exact: true });
+    this.errorMessage = page.locator("p.message.error.LoginForm");
   }
 
   async fillLoginForm(username: string, password: string) {
@@ -38,5 +40,12 @@ export class LoginPage {
     await expect
       .soft(this.loginButton, "Login button should be visible")
       .toBeVisible();
+  }
+
+  async verifyErrorMessage(expectedMessage: string) {
+    await expect(
+      this.errorMessage,
+      `Error message should contain "${expectedMessage}"`
+    ).toContainText(expectedMessage);
   }
 }

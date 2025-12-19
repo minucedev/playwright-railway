@@ -20,8 +20,19 @@ test.describe("Login Functionality", () => {
     });
   });
   test("TC02: Login with blank username", async ({ loginPage, homePage }) => {
-    await homePage.navigateToLogin();
-    await loginPage.verifyLoginFormVisible();
-    await loginPage.login(invalidUserBlankUsername);
+    await test.step("Navigate to login page", async () => {
+      await homePage.clickLogin();
+    });
+    await test.step("Verify login form is visible", async () => {
+      await loginPage.verifyLoginFormVisible();
+    });
+    await test.step("Perform login with blank username", async () => {
+      await loginPage.login(invalidUserBlankUsername);
+    });
+    await test.step("Verify error message is displayed", async () => {
+      await loginPage.verifyErrorMessage(
+        "There was a problem with your login and/or errors exist in your form."
+      );
+    });
   });
 });

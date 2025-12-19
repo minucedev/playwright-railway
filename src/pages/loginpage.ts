@@ -1,4 +1,4 @@
-import { type Page, type Locator, expect, test } from "@playwright/test";
+import { type Page, type Locator, expect } from "@playwright/test";
 import { User } from "../types/users";
 
 export class LoginPage {
@@ -16,17 +16,13 @@ export class LoginPage {
     this.errorMessage = page.locator("p.message.error.LoginForm");
   }
 
-  async fillLoginForm(email: string, pass: string) {
-    await test.step("Fill email and password", async () => {
-      await this.emailInput.fill(email);
-      await this.passwordInput.fill(pass);
-    });
+  async fillLoginForm(username: string, password: string) {
+    await this.emailInput.fill(username);
+    await this.passwordInput.fill(password);
   }
 
   async submitLogin() {
-    await test.step("Click login button", async () => {
-      await this.loginButton.click();
-    });
+    await this.loginButton.click();
   }
 
   async login(user: User) {
@@ -35,22 +31,22 @@ export class LoginPage {
   }
 
   async verifyLoginFormVisible() {
-    await test.step("Verify login form elements are visible", async () => {
-      await expect
-        .soft(this.emailInput, "Email input should be visible")
-        .toBeVisible();
-      await expect
-        .soft(this.passwordInput, "Password input should be visible")
-        .toBeVisible();
-      await expect
-        .soft(this.loginButton, "Login button should be visible")
-        .toBeVisible();
-    });
+    await expect
+      .soft(this.emailInput, "Email input should be visible")
+      .toBeVisible();
+    await expect
+      .soft(this.passwordInput, "Password input should be visible")
+      .toBeVisible();
+    await expect
+      .soft(this.loginButton, "Login button should be visible")
+      .toBeVisible();
   }
 
   async verifyErrorMessage(expectedMessage: string) {
-    await test.step(`Verify error message "${expectedMessage}" is displayed`, async () => {
-      await expect(this.errorMessage).toContainText(expectedMessage);
-    });
+    await expect(
+      this.errorMessage,
+      `Error message should contain "${expectedMessage}"`
+    ).toContainText(expectedMessage);
   }
+
 }

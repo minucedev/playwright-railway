@@ -40,7 +40,9 @@ test.describe("Login Functionality", () => {
     });
   });
   test("TC03: Login with invalid password", async ({ loginPage, homePage }) => {
-    await homePage.navigateToLogin();
+    await test.step("Navigate to login page", async () => {
+      await homePage.clickLogin();
+    });
     await loginPage.verifyLoginFormVisible();
     await loginPage.login(userInvalidPassword);
     await loginPage.verifyErrorMessage(

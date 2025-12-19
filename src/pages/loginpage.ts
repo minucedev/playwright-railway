@@ -49,9 +49,4 @@ export class LoginPage {
     ).toContainText(expectedMessage);
   }
 
-  async verifyErrorMessage(expectedMessage: string) {
-    await test.step(`Verify error message "${expectedMessage}" is displayed`, async () => {
-      await expect(this.errorMessage).toContainText(expectedMessage);
-    });
-  }
 }

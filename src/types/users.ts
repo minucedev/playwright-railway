@@ -8,3 +8,7 @@ export const validUser: User = {
   password: "test123456",
 };
 
+export const invalidUserBlankUsername: User = {
+  username: "",
+  password: "test123456",
+};

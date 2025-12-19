@@ -1,4 +1,4 @@
-import { type Page, type Locator, expect, test } from "@playwright/test";
+import { type Page, type Locator, expect } from "@playwright/test";
 
 export class HomePage {
   readonly page: Page;
@@ -20,32 +20,20 @@ export class HomePage {
   }
 
   async clickLogin() {
-    await test.step("Click login link", async () => {
-      await this.loginLink.click();
-    });
-  }
-
-  async navigateToLogin() {
-    await test.step("Navigate to login page", async () => {
-      await this.clickLogin();
-    });
+    await this.loginLink.click();
   }
 
   async verifyWelcomeText() {
-    await test.step("Verify welcome text is visible", async () => {
-      await expect(
-        this.welcomeText,
-        "Welcome text should be visible"
-      ).toBeVisible();
-    });
+    await expect(
+      this.welcomeText,
+      "Welcome text should be visible"
+    ).toBeVisible();
   }
 
   async verifyUserLoggedIn(username: string) {
-    await test.step(`Verify user ${username} is logged in`, async () => {
-      await expect(
-        this.userAccountText,
-        `User ${username} should be logged in`
-      ).toContainText(`Welcome ${username}`);
-    });
+    await expect(
+      this.userAccountText,
+      `User ${username} should be logged in`
+    ).toContainText(`Welcome ${username}`);
   }
 }

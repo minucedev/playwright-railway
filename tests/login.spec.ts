@@ -6,10 +6,18 @@ test.describe("Login Functionality", () => {
     loginPage,
     homePage,
   }) => {
-    await homePage.navigateToLogin();
-    await loginPage.verifyLoginFormVisible();
-    await loginPage.login(validUser);
-    await homePage.verifyUserLoggedIn(validUser.username);
+    await test.step("Navigate to login page", async () => {
+      await homePage.clickLogin();
+    });
+    await test.step("Verify login form is visible", async () => {
+      await loginPage.verifyLoginFormVisible();
+    });
+    await test.step("Perform login with valid credentials", async () => {
+      await loginPage.login(validUser);
+    });
+    await test.step("Verify user is logged in", async () => {
+      await homePage.verifyUserLoggedIn(validUser.username);
+    });
   });
   test("TC02: Login with blank username", async ({ loginPage, homePage }) => {
     await homePage.navigateToLogin();

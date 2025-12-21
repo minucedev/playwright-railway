@@ -1,22 +1,22 @@
-import { test } from "../src/fixtures/pom.fixtures";
+import { test, expect } from "../src/fixtures/pom.fixtures";
 import { validUser } from "../src/types/users";
 
 test.describe("Login Functionality", () => {
-  test("TC01: Login successfully with valid credentials", async ({
-    loginPage,
-    homePage,
-  }) => {
+  test("TC01: Login successfully with valid credentials", async ({ pm }) => {
     await test.step("Navigate to login page", async () => {
-      await homePage.navigateToPage("Login");
+      await pm.goTo("LOGIN");
     });
+
     await test.step("Verify login form is visible", async () => {
-      await loginPage.verifyLoginFormVisible();
+      await pm.login.verifyLoginFormVisible();
     });
+
     await test.step("Perform login with valid credentials", async () => {
-      await loginPage.login(validUser);
+      await pm.login.login(validUser);
     });
+
     await test.step("Verify user is logged in", async () => {
-      await homePage.verifyUserLoggedIn(validUser.username);
+      await pm.home.verifyUserLoggedIn(validUser.username);
     });
   });
 });

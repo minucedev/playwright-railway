@@ -7,7 +7,7 @@ test.describe("Login Functionality", () => {
     loginPage,
   }) => {
     await test.step("Navigate to login page", async () => {
-      await loginPage.goTo("login");
+      await homePage.goTo("login");
     });
 
     await test.step("Verify login form is visible", async () => {

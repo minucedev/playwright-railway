@@ -94,4 +94,28 @@ test.describe("Login Functionality", () => {
       );
     });
   });
+
+  test("TC06: Additional pages display once user logged in", async ({ pm }) => {
+    await test.step("Navigate to login page", async () => {
+      await pm.goTo("LOGIN");
+    });
+
+    await test.step("Login with valid account", async () => {
+      await pm.login.login(validUser);
+    });
+
+    await test.step("Verify authenticated menu links are displayed", async () => {
+      await pm.verifyAuthenticatedMenuVisible();
+    });
+
+    await test.step("Navigate to My ticket page", async () => {
+      await pm.goTo("MY_TICKET");
+      await pm.verifyCurrentUrl("/Page/ManageTicket.cshtml");
+    });
+
+    await test.step("Navigate to Change password page", async () => {
+      await pm.goTo("CHANGE_PASSWORD");
+      await pm.verifyCurrentUrl("/Account/ChangePassword");
+    });
+  });
 });

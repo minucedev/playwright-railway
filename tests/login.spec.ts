@@ -1,4 +1,4 @@
-import { test, expect } from "../src/fixtures/pom.fixtures";
+import { test } from "../src/fixtures/pom.fixtures";
 import {
   validUser,
   invalidUserBlankUsername,

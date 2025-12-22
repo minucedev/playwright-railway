@@ -30,10 +30,6 @@ export class PageManager {
     await this.page.getByRole("link", { name: linkName }).click();
   }
 
-  async logout() {
-    await this.navigateViaMenu("LOGOUT");
-  }
-
   async verifyAuthenticatedMenuVisible() {
     await expect(
       this.myTicketLink,

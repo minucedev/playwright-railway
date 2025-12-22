@@ -4,19 +4,15 @@ interface PageConfig {
 }
 
 export const pages: Record<string, PageConfig> = {
-  HOME: { path: "/" },
-  LOGIN: { path: "/Account/Login", label: "Login" },
-  REGISTER: { path: "/Account/Register", label: "Register" },
-  BOOK_TICKET: { path: "/Page/BookTicketPage.cshtml", label: "Book ticket" },
-  MY_TICKET: { path: "/Page/ManageTicket.cshtml", label: "My ticket" },
-  CHANGE_PASSWORD: {
+  home: { path: "/" },
+  login: { path: "/Account/Login", label: "Login" },
+  register: { path: "/Account/Register", label: "Register" },
+  bookTicket: { path: "/Page/BookTicketPage.cshtml", label: "Book Ticket" },
+  myTicket: { path: "/Page/ManageTicket.cshtml", label: "My Ticket" },
+  changePassword: {
     path: "/Account/ChangePassword",
-    label: "Change password",
+    label: "Change Password",
   },
-  CONTACT: { path: "/Page/Contact.cshtml", label: "Contact" },
-  FAQ: { path: "/Page/FAQ.cshtml", label: "FAQ" },
+  contact: { path: "/Page/Contact.cshtml", label: "Contact" },
+  faq: { path: "/Page/FAQ.cshtml", label: "FAQ" },
 };
-
-export const menuAction = {
-  LOGOUT: "Log out",
-} as const;

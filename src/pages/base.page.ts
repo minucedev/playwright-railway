@@ -1,5 +1,5 @@
 import { type Page } from "@playwright/test";
-import { pages, menuAction } from "../utils/routes.config";
+import { pages } from "../utils/routes.config";
 
 export class BasePage {
   readonly page: Page;
@@ -19,9 +19,5 @@ export class BasePage {
       throw new Error(`Page ${pageKey} does not have a menu label`);
     }
     await this.page.getByRole("link", { name: linkName }).click();
-  }
-
-  async logout() {
-    await this.page.getByRole("link", { name: menuAction.LOGOUT }).click();
   }
 }

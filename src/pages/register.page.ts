@@ -16,6 +16,8 @@ export class RegisterPage {
   readonly registerButton: Locator;
   readonly successMessage: Locator;
   readonly errorMessage: Locator;
+  readonly passwordValidationError: Locator;
+  readonly pidValidationError: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -31,6 +33,10 @@ export class RegisterPage {
     });
     this.successMessage = page.locator("#content > p");
     this.errorMessage = page.locator("p.message.error");
+    this.passwordValidationError = page.locator(
+      'label[for="password"].validation-error'
+    );
+    this.pidValidationError = page.locator('label[for="pid"].validation-error');
   }
 
   async fillRegistrationForm(user: RegisterUser) {
@@ -82,5 +88,16 @@ export class RegisterPage {
       this.errorMessage,
       `Error message should contain "${expectedMessage}"`
     ).toContainText(expectedMessage);
+  }
+
+  async verifyFieldValidationErrors() {
+    await expect(
+      this.passwordValidationError,
+      "Password validation error should be visible"
+    ).toContainText("Invalid password length");
+    await expect(
+      this.pidValidationError,
+      "PID validation error should be visible"
+    ).toContainText("Invalid ID length");
   }
 }

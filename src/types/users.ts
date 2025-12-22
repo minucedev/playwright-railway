@@ -12,6 +12,12 @@ export type RegisterUser = {
   pid: string;
 };
 
+export type ChangePasswordData = {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+};
+
 export const validUser: User = {
   username: "playwright@test.com",
   password: "test123456",
@@ -33,3 +39,9 @@ export const getValidRegisterUser = (): RegisterUser => ({
   confirmPassword: validUser.password,
   pid: "123456789",
 });
+
+export const validChangePasswordData: ChangePasswordData = {
+  currentPassword: validUser.password,
+  newPassword: "newtest123456",
+  confirmPassword: "newtest123456",
+};

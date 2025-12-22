@@ -4,8 +4,8 @@ export type User = {
 };
 
 export const validUser: User = {
-  username: "playwright@test.com",
-  password: "test123456",
+  username: "playwright123@test.com",
+  password: "12345678",
 };
 
 export const invalidUserBlankUsername: User = {

@@ -1,5 +1,9 @@
 import { test, expect } from "../src/fixtures/pom.fixtures";
-import { validUser, invalidUserBlankUsername } from "../src/types/users";
+import {
+  validUser,
+  invalidUserBlankUsername,
+  userInvalidPassword,
+} from "../src/types/users";
 
 test.describe("Login Functionality", () => {
   test("TC01: Login successfully with valid credentials", async ({ pm }) => {
@@ -39,18 +43,18 @@ test.describe("Login Functionality", () => {
       );
     });
   });
-  test("TC03: Login with invalid password", async ({ loginPage, homePage }) => {
+  test("TC03: Login with invalid password", async ({ pm }) => {
     await test.step("Navigate to login page", async () => {
-      await homePage.clickLogin();
+      await pm.goTo("LOGIN");
     });
     await test.step("Verify login form is visible", async () => {
-      await loginPage.verifyLoginFormVisible();
+      await pm.login.verifyLoginFormVisible();
     });
     await test.step("Perform login with invalid password", async () => {
-      await loginPage.login(userInvalidPassword);
+      await pm.login.login(userInvalidPassword);
     });
     await test.step("Verify error message is displayed", async () => {
-      await loginPage.verifyErrorMessage(
+      await pm.login.verifyErrorMessage(
         "There was a problem with your login and/or errors exist in your form."
       );
     });

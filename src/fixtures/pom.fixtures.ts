@@ -1,5 +1,5 @@
 import { test as base } from "@playwright/test";
-import { PageManager } from "../utils/page-manager";
+import { PageManager } from "../utils/page.manager";
 
 type MyFixtures = {
   pm: PageManager; // Page Manager for centralized page access and navigation

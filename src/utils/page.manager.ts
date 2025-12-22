@@ -1,12 +1,14 @@
 import { type Page, type Locator, expect } from "@playwright/test";
 import { HomePage } from "../pages/home.page";
 import { LoginPage } from "../pages/login.page";
+import { RegisterPage } from "../pages/register.page";
 import { ROUTES, MENU_LINKS } from "./routes.config";
 
 export class PageManager {
   readonly page: Page;
   readonly home: HomePage;
   readonly login: LoginPage;
+  readonly register: RegisterPage;
   readonly myTicketLink: Locator;
   readonly changePasswordLink: Locator;
   readonly logoutLink: Locator;
@@ -15,8 +17,15 @@ export class PageManager {
     this.page = page;
     this.home = new HomePage(page);
     this.login = new LoginPage(page);
-    this.myTicketLink = page.getByRole("link", { name: "My ticket", exact: true });
-    this.changePasswordLink = page.getByRole("link", { name: "Change password", exact: true });
+    this.register = new RegisterPage(page);
+    this.myTicketLink = page.getByRole("link", {
+      name: "My ticket",
+      exact: true,
+    });
+    this.changePasswordLink = page.getByRole("link", {
+      name: "Change password",
+      exact: true,
+    });
     this.logoutLink = page.getByRole("link", { name: "Log out", exact: true });
   }
 

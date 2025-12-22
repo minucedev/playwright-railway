@@ -2,39 +2,42 @@ import { test } from "../src/fixtures/pom.fixtures";
 import { validUser, invalidUserBlankUsername } from "../src/types/users";
 
 test.describe("Login Functionality", () => {
-  test("TC01: Login successfully with valid credentials", async ({ pm }) => {
+  test("TC01: Login successfully with valid credentials", async ({
+    homePage,
+    loginPage,
+  }) => {
     await test.step("Navigate to login page", async () => {
-      await pm.goTo("LOGIN");
+      await homePage.goTo("login");
     });
 
     await test.step("Verify login form is visible", async () => {
-      await pm.login.verifyLoginFormVisible();
+      await loginPage.verifyLoginFormVisible();
     });
 
     await test.step("Perform login with valid credentials", async () => {
-      await pm.login.login(validUser);
+      await loginPage.login(validUser);
     });
 
     await test.step("Verify user is logged in", async () => {
-      await pm.home.verifyUserLoggedIn(validUser.username);
+      await homePage.verifyUserLoggedIn(validUser.username);
     });
   });
 
-  test("TC02: Login with blank username", async ({ pm }) => {
+  test("TC02: Login with blank username", async ({ homePage, loginPage }) => {
     await test.step("Navigate to login page", async () => {
-      await pm.goTo("LOGIN");
+      await homePage.goTo("login");
     });
 
     await test.step("Verify login form is visible", async () => {
-      await pm.login.verifyLoginFormVisible();
+      await loginPage.verifyLoginFormVisible();
     });
 
     await test.step("Perform login with blank username", async () => {
-      await pm.login.login(invalidUserBlankUsername);
+      await loginPage.login(invalidUserBlankUsername);
     });
 
     await test.step("Verify error message is displayed", async () => {
-      await pm.login.verifyErrorMessage(
+      await loginPage.verifyErrorMessage(
         "There was a problem with your login and/or errors exist in your form."
       );
     });

@@ -72,16 +72,26 @@ test.describe("Login Functionality", () => {
   });
 
   test("TC05: Account lockout message for multiple failed logins", async ({
-    loginPage,
-    homePage,
+    pm,
   }) => {
-    await homePage.navigateToPage("Login");
-    await loginPage.verifyLoginFormVisible();
-    for (let i = 0; i < 4; i++) {
-      await loginPage.login(userInvalidPassword);
-    }
-    await loginPage.verifyLockoutMessage(
-      "You have used 4 out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes."
-    );
+    await test.step("Navigate to login page", async () => {
+      await pm.goTo("LOGIN");
+    });
+
+    await test.step("Verify login form is visible", async () => {
+      await pm.login.verifyLoginFormVisible();
+    });
+
+    await test.step("Attempt login 4 times with invalid password", async () => {
+      for (let i = 0; i < 4; i++) {
+        await pm.login.login(userInvalidPassword);
+      }
+    });
+
+    await test.step("Verify account lockout warning message", async () => {
+      await pm.login.verifyLockoutMessage(
+        "You have used 4 out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes."
+      );
+    });
   });
 });

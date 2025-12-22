@@ -49,4 +49,10 @@ export class LoginPage {
     ).toContainText(expectedMessage);
   }
 
+  async verifyLockoutMessage(expectedMessage: string) {
+    await expect(
+      this.errorMessage,
+      `Lockout message should contain "${expectedMessage}"`
+    ).toContainText(expectedMessage);
+  }
 }

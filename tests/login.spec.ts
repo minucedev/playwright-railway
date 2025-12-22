@@ -58,7 +58,7 @@ test.describe("Login Functionality", () => {
     });
     await test.step("Verify error message is displayed", async () => {
       await loginPage.verifyErrorMessage(
-        "There was a problem with your login and/or errors exist in your form."
+        "Invalid username or password. Please try again."
       );
     });
   });

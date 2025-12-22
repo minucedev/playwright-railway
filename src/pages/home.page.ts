@@ -13,10 +13,6 @@ export class HomePage {
     });
   }
 
-  async navigateToPage(linkName: string) {
-    await this.page.getByRole("link", { name: linkName }).click();
-  }
-
   async verifyWelcomeText() {
     await expect(
       this.welcomeText,

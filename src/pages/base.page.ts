@@ -1,17 +1,11 @@
 import { type Page } from "@playwright/test";
-import { HomePage } from "../pages/home.page";
-import { LoginPage } from "../pages/login.page";
-import { ROUTES, MENU_LINKS } from "./routes.config";
+import { ROUTES, MENU_LINKS } from "../utils/routes.config";
 
-export class PageManager {
+export class BasePage {
   readonly page: Page;
-  readonly home: HomePage;
-  readonly login: LoginPage;
 
   constructor(page: Page) {
     this.page = page;
-    this.home = new HomePage(page);
-    this.login = new LoginPage(page);
   }
 
   async goTo(routeKey: keyof typeof ROUTES) {

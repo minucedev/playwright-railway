@@ -1,14 +1,14 @@
 import { type Page, type Locator, expect } from "@playwright/test";
 import { User } from "../types/users";
+import { BasePage } from "./base.page";
 
-export class LoginPage {
-  readonly page: Page;
+export class LoginPage extends BasePage {
   readonly emailInput: Locator;
   readonly passwordInput: Locator;
   readonly loginButton: Locator;
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
     this.emailInput = page.getByLabel("Email", { exact: false });
     this.passwordInput = page.getByLabel("Password", { exact: false });
     this.loginButton = page.getByRole("button", { name: "Login", exact: true });

@@ -1,5 +1,5 @@
 import { type Page } from "@playwright/test";
-import { PAGES, MENU_ACTIONS } from "../utils/routes.config";
+import { pages, menuAction } from "../utils/routes.config";
 
 export class BasePage {
   readonly page: Page;
@@ -8,13 +8,13 @@ export class BasePage {
     this.page = page;
   }
 
-  async goTo(pageKey: keyof typeof PAGES) {
-    const url = PAGES[pageKey].path;
+  async goTo(pageKey: keyof typeof pages) {
+    const url = pages[pageKey].path;
     await this.page.goto(url);
   }
 
-  async navigateViaMenu(pageKey: keyof typeof PAGES) {
-    const linkName = PAGES[pageKey].label;
+  async navigateViaMenu(pageKey: keyof typeof pages) {
+    const linkName = pages[pageKey].label;
     if (!linkName) {
       throw new Error(`Page ${pageKey} does not have a menu label`);
     }
@@ -22,6 +22,6 @@ export class BasePage {
   }
 
   async logout() {
-    await this.page.getByRole("link", { name: MENU_ACTIONS.LOGOUT }).click();
+    await this.page.getByRole("link", { name: menuAction.LOGOUT }).click();
   }
 }

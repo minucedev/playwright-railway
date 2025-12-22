@@ -3,7 +3,7 @@ interface PageConfig {
   label?: string;
 }
 
-export const PAGES: Record<string, PageConfig> = {
+export const pages: Record<string, PageConfig> = {
   HOME: { path: "/" },
   LOGIN: { path: "/Account/Login", label: "Login" },
   REGISTER: { path: "/Account/Register", label: "Register" },
@@ -17,6 +17,6 @@ export const PAGES: Record<string, PageConfig> = {
   FAQ: { path: "/Page/FAQ.cshtml", label: "FAQ" },
 };
 
-export const MENU_ACTIONS = {
+export const menuAction = {
   LOGOUT: "Log out",
 } as const;

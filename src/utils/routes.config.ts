@@ -1,21 +1,22 @@
-export const ROUTES = {
-  HOME: "/",
-  LOGIN: "/Account/Login",
-  REGISTER: "/Account/Register",
-  BOOK_TICKET: "/Page/BookTicketPage.cshtml",
-  MY_TICKET: "/Page/ManageTicket.cshtml",
-  CHANGE_PASSWORD: "/Account/ChangePassword",
-  CONTACT: "/Page/Contact.cshtml",
-  FAQ: "/Page/FAQ.cshtml",
-} as const;
+interface PageConfig {
+  path: string;
+  label?: string;
+}
 
-export const MENU_LINKS = {
-  LOGIN: "Login",
-  REGISTER: "Register",
-  BOOK_TICKET: "Book ticket",
-  MY_TICKET: "My ticket",
-  CHANGE_PASSWORD: "Change password",
-  CONTACT: "Contact",
-  FAQ: "FAQ",
+export const PAGES: Record<string, PageConfig> = {
+  HOME: { path: "/" },
+  LOGIN: { path: "/Account/Login", label: "Login" },
+  REGISTER: { path: "/Account/Register", label: "Register" },
+  BOOK_TICKET: { path: "/Page/BookTicketPage.cshtml", label: "Book ticket" },
+  MY_TICKET: { path: "/Page/ManageTicket.cshtml", label: "My ticket" },
+  CHANGE_PASSWORD: {
+    path: "/Account/ChangePassword",
+    label: "Change password",
+  },
+  CONTACT: { path: "/Page/Contact.cshtml", label: "Contact" },
+  FAQ: { path: "/Page/FAQ.cshtml", label: "FAQ" },
+};
+
+export const MENU_ACTIONS = {
   LOGOUT: "Log out",
 } as const;

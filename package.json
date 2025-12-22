@@ -1,0 +1,24 @@
+{
+  "name": "playwright-railway",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minucedev/playwright-railway.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/minucedev/playwright-railway/issues"
+  },
+  "homepage": "https://github.com/minucedev/playwright-railway#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/dotenv": "^6.1.1",
+    "@types/node": "^25.0.3",
+    "dotenv": "^17.2.3"
+  }
+}

@@ -40,6 +40,13 @@ export const getValidRegisterUser = (): RegisterUser => ({
   pid: "123456789",
 });
 
+export const getRegisterUserMismatchPassword = (): RegisterUser => ({
+  email: generateEmail(),
+  password: validUser.password,
+  confirmPassword: "mismatch123456",
+  pid: "123456789",
+});
+
 export const validChangePasswordData: ChangePasswordData = {
   currentPassword: validUser.password,
   newPassword: "newtest123456",

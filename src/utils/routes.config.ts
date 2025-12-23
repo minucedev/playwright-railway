@@ -7,10 +7,11 @@ export enum PageRoute {
   CHANGE_PASSWORD = "changePassword",
   CONTACT = "contact",
   FAQ = "faq",
+  LOGOUT = "logout",
 }
 
 interface PageConfig {
-  path: string;
+  path?: string;
   label?: string;
 }
 
@@ -32,4 +33,5 @@ export const pages: Record<PageRoute, PageConfig> = {
   },
   [PageRoute.CONTACT]: { path: "/Page/Contact.cshtml", label: "Contact" },
   [PageRoute.FAQ]: { path: "/Page/FAQ.cshtml", label: "FAQ" },
+  [PageRoute.LOGOUT]: { label: "Log out" },
 };

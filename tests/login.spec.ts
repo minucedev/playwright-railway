@@ -112,18 +112,8 @@ test.describe("Login Functionality", () => {
       await loginPage.login(valid);
     });
 
-    await test.step("Verify authenticated menu links are displayed", async () => {
-      await homePage.verifyAuthenticatedMenuVisible();
-    });
-
-    await test.step("Navigate to My ticket page", async () => {
-      await homePage.goTo(PageRoute.MY_TICKET);
-      await homePage.verifyCurrentUrl("/Page/ManageTicket.cshtml");
-    });
-
-    await test.step("Navigate to Change password page", async () => {
-      await homePage.goTo(PageRoute.CHANGE_PASSWORD);
-      await homePage.verifyCurrentUrl("/Account/ChangePassword");
+    await test.step("Verify tab bar components and navigation to protected pages", async () => {
+      await homePage.verifyTabBarComponentsAfterLogin();
     });
   });
 });

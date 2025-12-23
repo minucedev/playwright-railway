@@ -26,22 +26,4 @@ export class HomePage extends BasePage {
       `User ${username} should be logged in`
     ).toContainText(`Welcome ${username}`);
   }
-
-  async verifyAuthenticatedMenuVisible() {
-    // Verify authenticated menu links are visible
-    await expect(
-      this.page.getByRole("link", { name: "My ticket" }),
-      "My ticket link should be visible"
-    ).toBeVisible();
-
-    await expect(
-      this.page.getByRole("link", { name: "Change password" }),
-      "Change password link should be visible"
-    ).toBeVisible();
-
-    await expect(
-      this.page.getByRole("link", { name: "Book ticket" }),
-      "Book ticket link should be visible"
-    ).toBeVisible();
-  }
 }

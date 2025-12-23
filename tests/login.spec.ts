@@ -78,4 +78,25 @@ test.describe("Login Functionality", () => {
       await loginPage.verifyLoginFormVisible();
     });
   });
+
+  test("TC05: Account lockout after 5 failed login attempts", async ({
+    homePage,
+    loginPage,
+  }) => {
+    await test.step("Navigate to login page", async () => {
+      await homePage.goTo(PageRoute.LOGIN);
+    });
+
+    await test.step("Verify login form is visible", async () => {
+      await loginPage.verifyLoginFormVisible();
+    });
+
+    await test.step("Attempt login 5 times with invalid password", async () => {
+      await loginPage.loginMultipleTimes(invalidPassword, 5);
+    });
+
+    await test.step("Verify account lockout warning message", async () => {
+      await loginPage.verifyLockoutMessage(5);
+    });
+  });
 });

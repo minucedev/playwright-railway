@@ -30,6 +30,16 @@ export class LoginPage extends BasePage {
     await this.submitLogin();
   }
 
+  async loginMultipleTimes(user: User, times: number, delay: number = 500) {
+    for (let i = 0; i < times; i++) {
+      await this.login(user);
+      // Wait between attempts to simulate real user behavior
+      if (i < times - 1) {
+        await this.page.waitForTimeout(delay);
+      }
+    }
+  }
+
   async verifyLoginFormVisible() {
     await expect
       .soft(this.emailInput, "Email input should be visible")
@@ -50,6 +60,13 @@ export class LoginPage extends BasePage {
     ).toHaveText(expectedMessage);
   }
 
+  async verifyLockoutMessage(attempts: number) {
+    const expectedMessage = `You have used ${attempts} out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes.`;
+    await expect(
+      this.errorMessage,
+      `Lockout message should contain "${expectedMessage}"`
+    ).toContainText(expectedMessage);
+  }
   async verifyNoErrorMessage() {
     await expect(
       this.errorMessage,

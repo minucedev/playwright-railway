@@ -3,12 +3,16 @@ export type User = {
   password: string;
 };
 
-export const validUser: User = {
+export const valid: User = {
   username: "playwright123@test.com",
   password: "12345678",
 };
 
-export const invalidUserBlankUsername: User = {
+export const invalidBlankUsername: User = {
   username: "",
   password: "test123456",
+};
+export const invalidPassword: User = {
+  username: "playwright@test.com",
+  password: "wrongpassword",
 };

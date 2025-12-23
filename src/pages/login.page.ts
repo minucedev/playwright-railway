@@ -42,10 +42,18 @@ export class LoginPage extends BasePage {
       .toBeVisible();
   }
 
-  async verifyErrorMessage(expectedMessage: string) {
+  async verifyErrorMessageExactly(expectedMessage: string) {
+    await expect(this.errorMessage).toBeVisible();
     await expect(
       this.errorMessage,
-      `Error message should contain "${expectedMessage}"`
-    ).toContainText(expectedMessage);
+      `Error message should be exactly "${expectedMessage}"`
+    ).toHaveText(expectedMessage);
+  }
+
+  async verifyNoErrorMessage() {
+    await expect(
+      this.errorMessage,
+      "Error message should not be visible"
+    ).not.toBeVisible();
   }
 }

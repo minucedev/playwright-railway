@@ -1,5 +1,5 @@
 import { type Page } from "@playwright/test";
-import { pages } from "../utils/routes.config";
+import { pages, PageRoute } from "../utils/routes.config";
 
 export class BasePage {
   readonly page: Page;
@@ -8,7 +8,7 @@ export class BasePage {
     this.page = page;
   }
 
-  async goTo(pageKey: keyof typeof pages) {
+  async goTo(pageKey: PageRoute) {
     const url = pages[pageKey].path;
     await this.page.goto(url);
   }

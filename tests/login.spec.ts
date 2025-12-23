@@ -66,4 +66,16 @@ test.describe("Login Functionality", () => {
       await loginPage.verifyErrorMessageExactly(expectedMessage);
     });
   });
+
+  test("TC04: Navigate to book ticket page without login redirects to login page", async ({
+    homePage,
+    loginPage,
+  }) => {
+    await test.step("Navigate to book ticket page without login", async () => {
+      await homePage.goTo(PageRoute.BOOK_TICKET);
+    });
+    await test.step("Verify redirected to login page", async () => {
+      await loginPage.verifyLoginFormVisible();
+    });
+  });
 });

@@ -30,12 +30,12 @@ export class LoginPage extends BasePage {
     await this.submitLogin();
   }
 
-  async loginMultipleTimes(user: User, times: number) {
+  async loginMultipleTimes(user: User, times: number, delay: number = 500) {
     for (let i = 0; i < times; i++) {
       await this.login(user);
       // Wait between attempts to simulate real user behavior
       if (i < times - 1) {
-        await this.page.waitForTimeout(500);
+        await this.page.waitForTimeout(delay);
       }
     }
   }

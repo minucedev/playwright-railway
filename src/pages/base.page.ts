@@ -9,9 +9,9 @@ export class BasePage {
   }
 
   async goTo(pageKey: PageRoute) {
-    const config = pages[pageKey];
-    if (config.label) {
-      await this.page.getByRole("link", { name: config.label }).click();
+    const navItem = pages[pageKey];
+    if (navItem.label) {
+      await this.page.getByRole("link", { name: navItem.label }).click();
     }
   }
 
@@ -32,7 +32,7 @@ export class BasePage {
     }
   }
 
-  async verifyTabBarComponentsAfterLogin() {
+  async verifyTabBarAfterLogin() {
     // Verify displayed tabs: My ticket, Change password, Logout
     await this.verifyLinkVisible(PageRoute.MY_TICKET);
     await this.verifyLinkVisible(PageRoute.CHANGE_PASSWORD);

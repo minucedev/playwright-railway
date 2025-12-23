@@ -113,7 +113,7 @@ test.describe("Login Functionality", () => {
     });
 
     await test.step("Verify tab bar components and navigation to protected pages", async () => {
-      await homePage.verifyTabBarComponentsAfterLogin();
+      await homePage.verifyTabBarAfterLogin();
     });
   });
 });

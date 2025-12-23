@@ -120,12 +120,12 @@ test.describe("Login Functionality", () => {
 
     await test.step("Verify navigation to protected pages", async () => {
       //Navigate to My ticket page
-      await myTicketPage.goTo(PageRoute.MY_TICKET);
+      await homePage.goTo(PageRoute.MY_TICKET);
       await myTicketPage.verifyCurrentPage(PageRoute.MY_TICKET);
       await myTicketPage.verifyHeader();
 
       //Navigate to Change password page
-      await changePasswordPage.goTo(PageRoute.CHANGE_PASSWORD);
+      await homePage.goTo(PageRoute.CHANGE_PASSWORD);
       await changePasswordPage.verifyCurrentPage(PageRoute.CHANGE_PASSWORD);
       await changePasswordPage.verifyHeader();
     });

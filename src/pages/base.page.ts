@@ -16,9 +16,9 @@ export class BasePage {
   }
 
   async verifyCurrentPage(pageRoute: PageRoute) {
-    const config = pages[pageRoute];
-    if (config.path) {
-      await expect(this.page).toHaveURL(config.path);
+    const navItem = pages[pageRoute];
+    if (navItem.path) {
+      await expect(this.page).toHaveURL(navItem.path);
     }
   }
 

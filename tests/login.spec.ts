@@ -104,7 +104,7 @@ test.describe("Login Functionality", () => {
     homePage,
     loginPage,
     myTicketPage,
-    changePasswordPage
+    changePasswordPage,
   }) => {
     await test.step("Navigate to login page", async () => {
       await homePage.goTo(PageRoute.LOGIN);
@@ -119,8 +119,15 @@ test.describe("Login Functionality", () => {
     });
 
     await test.step("Verify navigation to protected pages", async () => {
-      await myTicketPage.verifyPageNavigable(PageRoute.MY_TICKET);
-      await changePasswordPage.verifyPageNavigable(PageRoute.CHANGE_PASSWORD);
+      //Navigate to My ticket page
+      await myTicketPage.goTo(PageRoute.MY_TICKET);
+      await myTicketPage.verifyCurrentPage(PageRoute.MY_TICKET);
+      await myTicketPage.verifyHeader();
+
+      //Navigate to Change password page
+      await changePasswordPage.goTo(PageRoute.CHANGE_PASSWORD);
+      await changePasswordPage.verifyCurrentPage(PageRoute.CHANGE_PASSWORD);
+      await changePasswordPage.verifyHeader();
     });
   });
 });

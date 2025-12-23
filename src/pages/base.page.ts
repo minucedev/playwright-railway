@@ -25,12 +25,7 @@ export class BasePage {
   async verifyLinkVisible(link: string | PageRoute) {
     let linkText: string;
     if (isPageRoute(link)) {
-      const config = pages[link];
-      const label = config.label;
-      if (!label) {
-        throw new Error(`Page ${link} does not have a label defined`);
-      }
-      linkText = label;
+      linkText = pages[link].label!;
     } else {
       linkText = link;
     }

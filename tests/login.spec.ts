@@ -103,6 +103,8 @@ test.describe("Login Functionality", () => {
   test("TC06: Additional pages display once user logged in", async ({
     homePage,
     loginPage,
+    myTicketPage,
+    changePasswordPage
   }) => {
     await test.step("Navigate to login page", async () => {
       await homePage.goTo(PageRoute.LOGIN);
@@ -112,8 +114,13 @@ test.describe("Login Functionality", () => {
       await loginPage.login(valid);
     });
 
-    await test.step("Verify tab bar components and navigation to protected pages", async () => {
+    await test.step("Verify tab bar components ", async () => {
       await homePage.verifyTabBarAfterLogin();
+    });
+
+    await test.step("Verify navigation to protected pages", async () => {
+      await myTicketPage.verifyPageNavigable(PageRoute.MY_TICKET);
+      await changePasswordPage.verifyPageNavigable(PageRoute.CHANGE_PASSWORD);
     });
   });
 });

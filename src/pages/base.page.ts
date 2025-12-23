@@ -42,11 +42,5 @@ export class BasePage {
     await this.verifyLinkVisible(PageRoute.MY_TICKET);
     await this.verifyLinkVisible(PageRoute.CHANGE_PASSWORD);
     await this.verifyLinkVisible(PageRoute.LOGOUT);
-
-    // Verify navigation to My ticket page
-    await this.verifyPageNavigable(PageRoute.MY_TICKET);
-
-    // Verify navigation to Change password page
-    await this.verifyPageNavigable(PageRoute.CHANGE_PASSWORD);
   }
 }

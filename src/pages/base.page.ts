@@ -13,20 +13,12 @@ export class BasePage {
   }
 
   async goTo(pageKey: PageRoute) {
-    const path = pages[pageKey].path;
-    if (!path) {
-      throw new Error(`Page ${pageKey} does not have a path defined`);
-    }
-    await this.page.goto(path);
+    const label = pages[pageKey].label!;
+    await this.page.getByRole("link", { name: label }).click();
   }
 
   async verifyCurrentPage(pageRoute: PageRoute) {
-    const expectedPath = pages[pageRoute].path;
-    if (!expectedPath) {
-      throw new Error(
-        `Page ${pageRoute} does not have a path defined for verification`
-      );
-    }
+    const expectedPath = pages[pageRoute].path!;
     await expect(this.page).toHaveURL(expectedPath);
   }
 

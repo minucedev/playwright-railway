@@ -99,4 +99,35 @@ test.describe("Login Functionality", () => {
       await loginPage.verifyLockoutMessage(5);
     });
   });
+
+  test("TC06: Additional pages display once user logged in", async ({
+    homePage,
+    loginPage,
+    myTicketPage,
+    changePasswordPage,
+  }) => {
+    await test.step("Navigate to login page", async () => {
+      await homePage.goTo(PageRoute.LOGIN);
+    });
+
+    await test.step("Login with valid account", async () => {
+      await loginPage.login(valid);
+    });
+
+    await test.step("Verify tab bar components ", async () => {
+      await homePage.verifyTabBarAfterLogin();
+    });
+
+    await test.step("Verify navigation to protected pages", async () => {
+      //Navigate to My ticket page
+      await homePage.goTo(PageRoute.MY_TICKET);
+      await myTicketPage.verifyCurrentPage(PageRoute.MY_TICKET);
+      await myTicketPage.verifyHeader();
+
+      //Navigate to Change password page
+      await myTicketPage.goTo(PageRoute.CHANGE_PASSWORD);
+      await changePasswordPage.verifyCurrentPage(PageRoute.CHANGE_PASSWORD);
+      await changePasswordPage.verifyHeader();
+    });
+  });
 });

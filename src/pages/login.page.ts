@@ -51,7 +51,6 @@ export class LoginPage extends BasePage {
   }
 
   async getErrorMessageText(): Promise<string> {
-    await expect(this.errorMessage).toBeVisible();
     return (await this.errorMessage.textContent()) || "";
   }
 

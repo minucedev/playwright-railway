@@ -49,9 +49,6 @@ test.describe("Login Functionality", () => {
       const expectedMessage =
         "There was a problem with your login and/or errors exist in your form.";
       await loginPage.verifyErrorMessageExactly(expectedMessage);
-
-      const errorText = await loginPage.getErrorMessageText();
-      console.log("Error message received:", errorText);
     });
   });
   test("TC03: Login with invalid password", async ({ homePage, loginPage }) => {
@@ -67,9 +64,6 @@ test.describe("Login Functionality", () => {
     await test.step("Verify error message is displayed", async () => {
       const expectedMessage = "Invalid username or password. Please try again.";
       await loginPage.verifyErrorMessageExactly(expectedMessage);
-
-      const errorText = await loginPage.getErrorMessageText();
-      console.log("Error message received:", errorText);
     });
   });
 });

@@ -23,11 +23,11 @@ export class BasePage {
   }
 
   async verifyLinkVisible(pageRoute: PageRoute) {
-    const config = pages[pageRoute];
-    if (config.label) {
+    const navItem = pages[pageRoute];
+    if (navItem.label) {
       await expect(
-        this.page.getByRole("link", { name: config.label }),
-        `${config.label} link should be visible`
+        this.page.getByRole("link", { name: navItem.label }),
+        `${navItem.label} link should be visible`
       ).toBeVisible();
     }
   }

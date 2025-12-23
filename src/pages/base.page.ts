@@ -32,6 +32,11 @@ export class BasePage {
     }
   }
 
+  async verifyPageNavigable(pageRoute: PageRoute) {
+    await this.goTo(pageRoute);
+    await this.verifyCurrentPage(pageRoute);
+  }
+
   async verifyTabBarAfterLogin() {
     // Verify displayed tabs: My ticket, Change password, Logout
     await this.verifyLinkVisible(PageRoute.MY_TICKET);
@@ -39,11 +44,9 @@ export class BasePage {
     await this.verifyLinkVisible(PageRoute.LOGOUT);
 
     // Verify navigation to My ticket page
-    await this.goTo(PageRoute.MY_TICKET);
-    await this.verifyCurrentPage(PageRoute.MY_TICKET);
+    await this.verifyPageNavigable(PageRoute.MY_TICKET);
 
     // Verify navigation to Change password page
-    await this.goTo(PageRoute.CHANGE_PASSWORD);
-    await this.verifyCurrentPage(PageRoute.CHANGE_PASSWORD);
+    await this.verifyPageNavigable(PageRoute.CHANGE_PASSWORD);
   }
 }

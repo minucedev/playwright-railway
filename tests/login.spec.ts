@@ -1,121 +1,129 @@
 import { test } from "../src/fixtures/pom.fixtures";
 import {
-  validUser,
-  invalidUserBlankUsername,
-  userInvalidPassword,
+  valid,
+  invalidBlankUsername,
+  invalidPassword,
 } from "../src/types/users";
+import { PageRoute } from "../src/utils/routes.config";
 
 test.describe("Login Functionality", () => {
-  test("TC01: Login successfully with valid credentials", async ({ pm }) => {
+  test("TC01: Login successfully with valid credentials", async ({
+    homePage,
+    loginPage,
+  }) => {
     await test.step("Navigate to login page", async () => {
-      await pm.goTo("LOGIN");
+      await homePage.goTo(PageRoute.LOGIN);
     });
 
     await test.step("Verify login form is visible", async () => {
-      await pm.login.verifyLoginFormVisible();
+      await loginPage.verifyLoginFormVisible();
     });
 
     await test.step("Perform login with valid credentials", async () => {
-      await pm.login.login(validUser);
+      await loginPage.login(valid);
     });
 
     await test.step("Verify user is logged in", async () => {
-      await pm.home.verifyUserLoggedIn(validUser.username);
+      await homePage.verifyUserLoggedIn(valid.username);
+    });
+
+    await test.step("Verify no error message is displayed", async () => {
+      await loginPage.verifyNoErrorMessage();
     });
   });
 
-  test("TC02: Login with blank username", async ({ pm }) => {
+  test("TC02: Login with blank username", async ({ homePage, loginPage }) => {
     await test.step("Navigate to login page", async () => {
-      await pm.goTo("LOGIN");
+      await homePage.goTo(PageRoute.LOGIN);
     });
 
     await test.step("Verify login form is visible", async () => {
-      await pm.login.verifyLoginFormVisible();
+      await loginPage.verifyLoginFormVisible();
     });
 
     await test.step("Perform login with blank username", async () => {
-      await pm.login.login(invalidUserBlankUsername);
+      await loginPage.login(invalidBlankUsername);
     });
 
     await test.step("Verify error message is displayed", async () => {
-      await pm.login.verifyErrorMessage(
-        "There was a problem with your login and/or errors exist in your form."
-      );
+      const expectedMessage =
+        "There was a problem with your login and/or errors exist in your form.";
+      await loginPage.verifyErrorMessageExactly(expectedMessage);
     });
   });
-  test("TC03: Login with invalid password", async ({ pm }) => {
+  test("TC03: Login with invalid password", async ({ homePage, loginPage }) => {
     await test.step("Navigate to login page", async () => {
-      await pm.goTo("LOGIN");
+      await homePage.goTo(PageRoute.LOGIN);
     });
     await test.step("Verify login form is visible", async () => {
-      await pm.login.verifyLoginFormVisible();
+      await loginPage.verifyLoginFormVisible();
     });
     await test.step("Perform login with invalid password", async () => {
-      await pm.login.login(userInvalidPassword);
+      await loginPage.login(invalidPassword);
     });
     await test.step("Verify error message is displayed", async () => {
-      await pm.login.verifyErrorMessage(
-        "There was a problem with your login and/or errors exist in your form."
-      );
+      const expectedMessage = "Invalid username or password. Please try again.";
+      await loginPage.verifyErrorMessageExactly(expectedMessage);
     });
   });
 
   test("TC04: Navigate to book ticket page without login redirects to login page", async ({
-    pm,
+    homePage,
+    loginPage,
   }) => {
     await test.step("Navigate to book ticket page without login", async () => {
-      await pm.goTo("BOOK_TICKET");
+      await homePage.goTo(PageRoute.BOOK_TICKET);
     });
     await test.step("Verify redirected to login page", async () => {
-      await pm.login.verifyLoginFormVisible();
+      await loginPage.verifyLoginFormVisible();
     });
   });
 
-  test("TC05: Account lockout message for multiple failed logins", async ({
-    pm,
+  test("TC05: Account lockout after 5 failed login attempts", async ({
+    homePage,
+    loginPage,
   }) => {
     await test.step("Navigate to login page", async () => {
-      await pm.goTo("LOGIN");
+      await homePage.goTo(PageRoute.LOGIN);
     });
 
     await test.step("Verify login form is visible", async () => {
-      await pm.login.verifyLoginFormVisible();
+      await loginPage.verifyLoginFormVisible();
     });
 
-    await test.step("Attempt login 4 times with invalid password", async () => {
-      for (let i = 0; i < 4; i++) {
-        await pm.login.login(userInvalidPassword);
-      }
+    await test.step("Attempt login 5 times with invalid password", async () => {
+      await loginPage.loginMultipleTimes(invalidPassword, 5);
     });
 
     await test.step("Verify account lockout warning message", async () => {
-      await pm.login.verifyLockoutMessage(
-        "You have used 4 out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes."
-      );
+      await loginPage.verifyLockoutMessage(5);
     });
   });
 
-  test("TC06: Additional pages display once user logged in", async ({ pm }) => {
+  test("TC06: Additional pages display once user logged in", async ({
+    homePage,
+    loginPage,
+  }) => {
     await test.step("Navigate to login page", async () => {
-      await pm.goTo("LOGIN");
+      await homePage.goTo(PageRoute.LOGIN);
     });
 
     await test.step("Login with valid account", async () => {
-      await pm.login.login(validUser);
+      await loginPage.login(valid);
     });
 
     await test.step("Verify authenticated menu links are displayed", async () => {
-      await pm.verifyAuthenticatedMenuVisible();
+      await homePage.verifyAuthenticatedMenuVisible();
     });
 
     await test.step("Navigate to My ticket page", async () => {
-      await pm.goTo("MY_TICKET");
-      await pm.verifyCurrentUrl("/Page/ManageTicket.cshtml");
+      await homePage.goTo(PageRoute.MY_TICKET);
+      await homePage.verifyCurrentUrl("/Page/ManageTicket.cshtml");
     });
 
     await test.step("Navigate to Change password page", async () => {
-      await pm.goTo("CHANGE_PASSWORD");
-      await pm.verifyCurrentUrl("/Account/ChangePassword");
+      await homePage.goTo(PageRoute.CHANGE_PASSWORD);
+      await homePage.verifyCurrentUrl("/Account/ChangePassword");
     });
   });
 });

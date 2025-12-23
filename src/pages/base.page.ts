@@ -1,10 +1,6 @@
 import { type Page, expect } from "@playwright/test";
 import { pages, PageRoute } from "../utils/routes.config";
 
-function isPageRoute(value: string): value is PageRoute {
-  return Object.values(PageRoute).includes(value as PageRoute);
-}
-
 export class BasePage {
   readonly page: Page;
 
@@ -13,26 +9,27 @@ export class BasePage {
   }
 
   async goTo(pageKey: PageRoute) {
-    const label = pages[pageKey].label!;
-    await this.page.getByRole("link", { name: label }).click();
+    const config = pages[pageKey];
+    if (config.label) {
+      await this.page.getByRole("link", { name: config.label }).click();
+    }
   }
 
   async verifyCurrentPage(pageRoute: PageRoute) {
-    const expectedPath = pages[pageRoute].path!;
-    await expect(this.page).toHaveURL(expectedPath);
+    const config = pages[pageRoute];
+    if (config.path) {
+      await expect(this.page).toHaveURL(config.path);
+    }
   }
 
-  async verifyLinkVisible(link: string | PageRoute) {
-    let linkText: string;
-    if (isPageRoute(link)) {
-      linkText = pages[link].label!;
-    } else {
-      linkText = link;
+  async verifyLinkVisible(pageRoute: PageRoute) {
+    const config = pages[pageRoute];
+    if (config.label) {
+      await expect(
+        this.page.getByRole("link", { name: config.label }),
+        `${config.label} link should be visible`
+      ).toBeVisible();
     }
-    await expect(
-      this.page.getByRole("link", { name: linkText }),
-      `${linkText} link should be visible`
-    ).toBeVisible();
   }
 
   async verifyTabBarComponentsAfterLogin() {

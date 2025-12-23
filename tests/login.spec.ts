@@ -125,7 +125,7 @@ test.describe("Login Functionality", () => {
       await myTicketPage.verifyHeader();
 
       //Navigate to Change password page
-      await homePage.goTo(PageRoute.CHANGE_PASSWORD);
+      await myTicketPage.goTo(PageRoute.CHANGE_PASSWORD);
       await changePasswordPage.verifyCurrentPage(PageRoute.CHANGE_PASSWORD);
       await changePasswordPage.verifyHeader();
     });

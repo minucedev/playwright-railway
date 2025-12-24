@@ -1,4 +1,5 @@
 import { type Page, type Locator, expect } from "@playwright/test";
+import { BasePage } from "./base.page";
 
 export type ChangePasswordData = {
   currentPassword: string;
@@ -6,8 +7,7 @@ export type ChangePasswordData = {
   confirmPassword: string;
 };
 
-export class ChangePasswordPage {
-  readonly page: Page;
+export class ChangePasswordPage extends BasePage {
   readonly currentPasswordInput: Locator;
   readonly newPasswordInput: Locator;
   readonly confirmPasswordInput: Locator;
@@ -15,7 +15,8 @@ export class ChangePasswordPage {
   readonly successMessage: Locator;
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
+    this.header = page.getByRole("heading", { name: "Change password" });
     this.currentPasswordInput = page.getByLabel("Current Password", {
       exact: false,
     });

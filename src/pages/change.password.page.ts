@@ -13,6 +13,7 @@ export class ChangePasswordPage extends BasePage {
   readonly confirmPasswordInput: Locator;
   readonly changePasswordButton: Locator;
   readonly successMessage: Locator;
+  readonly errorMessage: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -29,6 +30,7 @@ export class ChangePasswordPage extends BasePage {
       exact: true,
     });
     this.successMessage = page.locator("#content p.message.success");
+    this.errorMessage = page.locator("#content p.message.error");
   }
 
   async fillChangePasswordForm(data: ChangePasswordData) {
@@ -50,6 +52,13 @@ export class ChangePasswordPage extends BasePage {
     await expect(
       this.successMessage,
       `Success message should contain "${expectedMessage}"`
+    ).toContainText(expectedMessage);
+  }
+
+  async verifyErrorMessage(expectedMessage: string) {
+    await expect(
+      this.errorMessage,
+      `Error message should contain "${expectedMessage}"`
     ).toContainText(expectedMessage);
   }
 }

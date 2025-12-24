@@ -16,6 +16,7 @@ export class RegisterPage {
   readonly pidInput: Locator;
   readonly registerButton: Locator;
   readonly successMessage: Locator;
+  readonly errorMessage: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -30,6 +31,7 @@ export class RegisterPage {
       exact: true,
     });
     this.successMessage = page.locator("#content > p");
+    this.errorMessage = page.locator("p.message.error");
   }
 
   async fillRegistrationForm(user: RegisterUser) {
@@ -73,6 +75,13 @@ export class RegisterPage {
     await expect(
       this.successMessage,
       `Success message should contain "${expectedMessage}"`
+    ).toContainText(expectedMessage);
+  }
+
+  async verifyErrorMessage(expectedMessage: string) {
+    await expect(
+      this.errorMessage,
+      `Error message should contain "${expectedMessage}"`
     ).toContainText(expectedMessage);
   }
 }

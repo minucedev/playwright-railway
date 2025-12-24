@@ -20,9 +20,16 @@ export const invalidPassword: User = {
   password: "wrongpassword",
 };
 
-export const getValidRegister = (): RegisterUser => ({
+export const validRegister = (): RegisterUser => ({
   email: generateEmail(),
   password: valid.password,
   confirmPassword: valid.password,
+  pid: "123456789",
+});
+
+export const mismatchPasswordRegister = (): RegisterUser => ({
+  email: generateEmail(),
+  password: valid.password,
+  confirmPassword: "mismatch123456",
   pid: "123456789",
 });

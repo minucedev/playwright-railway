@@ -46,30 +46,6 @@ export class ChangePasswordPage extends BasePage {
     await this.submitChangePassword();
   }
 
-  async verifyChangePasswordFormVisible() {
-    await expect
-      .soft(
-        this.currentPasswordInput,
-        "Current Password input should be visible"
-      )
-      .toBeVisible();
-    await expect
-      .soft(this.newPasswordInput, "New Password input should be visible")
-      .toBeVisible();
-    await expect
-      .soft(
-        this.confirmPasswordInput,
-        "Confirm Password input should be visible"
-      )
-      .toBeVisible();
-    await expect
-      .soft(
-        this.changePasswordButton,
-        "Change Password button should be visible"
-      )
-      .toBeVisible();
-  }
-
   async verifySuccessMessage(expectedMessage: string) {
     await expect(
       this.successMessage,

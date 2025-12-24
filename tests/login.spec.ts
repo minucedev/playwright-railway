@@ -3,7 +3,7 @@ import {
   valid,
   invalidBlankUsername,
   invalidPassword,
-} from "../src/types/users";
+} from "../src/data/users";
 import { PageRoute } from "../src/utils/routes.config";
 
 test.describe("Login Functionality", () => {

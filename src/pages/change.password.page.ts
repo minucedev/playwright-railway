@@ -1,10 +1,10 @@
-import { type Page, type Locator, expect } from "@playwright/test";
+import { expect } from "@playwright/test";
+import type { Page, Locator } from "../types/playwright.types";
 import { BasePage } from "./base.page";
 
 export type ChangePasswordData = {
   currentPassword: string;
   newPassword: string;
-  confirmPassword: string;
 };
 
 export class ChangePasswordPage extends BasePage {
@@ -34,7 +34,7 @@ export class ChangePasswordPage extends BasePage {
   async fillChangePasswordForm(data: ChangePasswordData) {
     await this.currentPasswordInput.fill(data.currentPassword);
     await this.newPasswordInput.fill(data.newPassword);
-    await this.confirmPasswordInput.fill(data.confirmPassword);
+    await this.confirmPasswordInput.fill(data.newPassword);
   }
 
   async submitChangePassword() {

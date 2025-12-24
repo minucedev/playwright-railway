@@ -1,5 +1,5 @@
 import { test } from "../src/fixtures/pom.fixtures";
-import { getValidRegister } from "../src/types/users";
+import { getValidRegister } from "../src/data/users";
 import { PageRoute } from "../src/utils/routes.config";
 
 test.describe("Registration Functionality", () => {

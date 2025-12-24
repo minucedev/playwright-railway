@@ -1,5 +1,6 @@
-import { type Page, type Locator, expect } from "@playwright/test";
-import { User } from "../types/users";
+import { expect } from "@playwright/test";
+import type { Page, Locator } from "../types/playwright.types";
+import { User } from "../data/users";
 import { BasePage } from "./base.page";
 
 export class LoginPage extends BasePage {

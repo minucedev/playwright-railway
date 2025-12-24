@@ -26,9 +26,3 @@ export const getValidRegister = (): RegisterUser => ({
   confirmPassword: valid.password,
   pid: "123456789",
 });
-
-export const validChangePasswordData = {
-  currentPassword: valid.password,
-  newPassword: "newtest123456",
-  confirmPassword: "newtest123456",
-};

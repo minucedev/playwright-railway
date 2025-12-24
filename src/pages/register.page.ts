@@ -92,13 +92,14 @@ export class RegisterPage {
   }
 
   async verifyFieldValidationErrors() {
-    await expect(
-      this.passwordValidationError,
-      "Password validation error should be visible"
-    ).toContainText("Invalid password length");
-    await expect(
-      this.pidValidationError,
-      "PID validation error should be visible"
-    ).toContainText("Invalid ID length");
+    await expect
+      .soft(
+        this.passwordValidationError,
+        "Password validation error should be visible"
+      )
+      .toContainText("Invalid password length");
+    await expect
+      .soft(this.pidValidationError, "PID validation error should be visible")
+      .toContainText("Invalid ID length");
   }
 }

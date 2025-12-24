@@ -1,21 +1,23 @@
-import { type Page, type Locator, expect } from "@playwright/test";
+import { expect } from "@playwright/test";
+import type { Page, Locator } from "../types/playwright.types";
+import { BasePage } from "./base.page";
 
 export type ChangePasswordData = {
   currentPassword: string;
   newPassword: string;
-  confirmPassword: string;
 };
 
-export class ChangePasswordPage {
-  readonly page: Page;
+export class ChangePasswordPage extends BasePage {
   readonly currentPasswordInput: Locator;
   readonly newPasswordInput: Locator;
   readonly confirmPasswordInput: Locator;
   readonly changePasswordButton: Locator;
   readonly successMessage: Locator;
+  readonly errorMessage: Locator;
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
+    this.header = page.getByRole("heading", { name: "Change password" });
     this.currentPasswordInput = page.getByLabel("Current Password", {
       exact: false,
     });
@@ -28,12 +30,13 @@ export class ChangePasswordPage {
       exact: true,
     });
     this.successMessage = page.locator("#content p.message.success");
+    this.errorMessage = page.locator("#content p.message.error");
   }
 
   async fillChangePasswordForm(data: ChangePasswordData) {
     await this.currentPasswordInput.fill(data.currentPassword);
     await this.newPasswordInput.fill(data.newPassword);
-    await this.confirmPasswordInput.fill(data.confirmPassword);
+    await this.confirmPasswordInput.fill(data.newPassword);
   }
 
   async submitChangePassword() {
@@ -45,34 +48,17 @@ export class ChangePasswordPage {
     await this.submitChangePassword();
   }
 
-  async verifyChangePasswordFormVisible() {
-    await expect
-      .soft(
-        this.currentPasswordInput,
-        "Current Password input should be visible"
-      )
-      .toBeVisible();
-    await expect
-      .soft(this.newPasswordInput, "New Password input should be visible")
-      .toBeVisible();
-    await expect
-      .soft(
-        this.confirmPasswordInput,
-        "Confirm Password input should be visible"
-      )
-      .toBeVisible();
-    await expect
-      .soft(
-        this.changePasswordButton,
-        "Change Password button should be visible"
-      )
-      .toBeVisible();
-  }
-
   async verifySuccessMessage(expectedMessage: string) {
     await expect(
       this.successMessage,
       `Success message should contain "${expectedMessage}"`
+    ).toContainText(expectedMessage);
+  }
+
+  async verifyErrorMessage(expectedMessage: string) {
+    await expect(
+      this.errorMessage,
+      `Error message should contain "${expectedMessage}"`
     ).toContainText(expectedMessage);
   }
 }

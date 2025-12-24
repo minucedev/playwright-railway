@@ -118,4 +118,26 @@ export class BookTicketPage extends BasePage {
       ).toHaveText(expectedData.ticketAmount);
     }
   }
+
+  async verifySelectedStations(expectedDepart: string, expectedArrive: string) {
+    const selectedDepartText = await this.departStationSelect
+      .locator("option:checked")
+      .textContent();
+    const selectedArriveText = await this.arriveStationSelect
+      .locator("option:checked")
+      .textContent();
+
+    await expect
+      .soft(
+        selectedDepartText?.trim(),
+        `Depart Station should be "${expectedDepart}"`
+      )
+      .toBe(expectedDepart);
+    await expect
+      .soft(
+        selectedArriveText?.trim(),
+        `Arrive Station should be "${expectedArrive}"`
+      )
+      .toBe(expectedArrive);
+  }
 }

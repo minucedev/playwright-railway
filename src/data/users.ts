@@ -8,7 +8,7 @@ export type User = {
 
 export const valid: User = {
   username: "playwright123@test.com",
-  password: "newpassword123",
+  password: "12345678",
 };
 
 export const invalidBlankUsername: User = {

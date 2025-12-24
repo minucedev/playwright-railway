@@ -36,4 +36,27 @@ test.describe("Change Password Functionality", () => {
       );
     });
   });
+
+  test.afterAll(async ({ homePage, loginPage, changePasswordPage }) => {
+    await test.step("Reset password back to original", async () => {
+      // Login with the new password
+      await homePage.goTo(PageRoute.LOGIN);
+      await loginPage.login({
+        username: valid.username,
+        password: "newpassword123",
+      });
+      await homePage.verifyUserLoggedIn(valid.username);
+
+      // Change password back to old
+      await homePage.goTo(PageRoute.CHANGE_PASSWORD);
+      const changeBackData = {
+        currentPassword: "newpassword123",
+        newPassword: valid.password,
+      };
+      await changePasswordPage.changePassword(changeBackData);
+      await changePasswordPage.verifySuccessMessage(
+        "Your password has been updated!"
+      );
+    });
+  });
 });

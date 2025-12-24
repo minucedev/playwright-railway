@@ -1,47 +1,34 @@
 import { generateEmail } from "../utils/random.data";
+import type { RegisterUser } from "../pages/register.page";
 
 export type User = {
   username: string;
   password: string;
 };
 
-export type RegisterUser = {
-  email: string;
-  password: string;
-  confirmPassword: string;
-  pid: string;
+export const valid: User = {
+  username: "playwright123@test.com",
+  password: "12345678",
 };
 
-export type ChangePasswordData = {
-  currentPassword: string;
-  newPassword: string;
-  confirmPassword: string;
-};
-
-export const validUser: User = {
-  username: "playwright@test.com",
-  password: "test123456",
-};
-
-export const invalidUserBlankUsername: User = {
+export const invalidBlankUsername: User = {
   username: "",
   password: "test123456",
 };
-
-export const userInvalidPassword: User = {
+export const invalidPassword: User = {
   username: "playwright@test.com",
   password: "wrongpassword",
 };
 
-export const getValidRegisterUser = (): RegisterUser => ({
+export const getValidRegister = (): RegisterUser => ({
   email: generateEmail(),
-  password: validUser.password,
-  confirmPassword: validUser.password,
+  password: valid.password,
+  confirmPassword: valid.password,
   pid: "123456789",
 });
 
-export const validChangePasswordData: ChangePasswordData = {
-  currentPassword: validUser.password,
+export const validChangePasswordData = {
+  currentPassword: valid.password,
   newPassword: "newtest123456",
   confirmPassword: "newtest123456",
 };

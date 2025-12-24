@@ -1,21 +1,37 @@
-export const ROUTES = {
-  HOME: "/",
-  LOGIN: "/Account/Login",
-  REGISTER: "/Account/Register",
-  BOOK_TICKET: "/Page/BookTicketPage.cshtml",
-  MY_TICKET: "/Page/ManageTicket.cshtml",
-  CHANGE_PASSWORD: "/Account/ChangePassword",
-  CONTACT: "/Page/Contact.cshtml",
-  FAQ: "/Page/FAQ.cshtml",
-} as const;
+export enum PageRoute {
+  HOME = "home",
+  LOGIN = "login",
+  REGISTER = "register",
+  BOOK_TICKET = "bookTicket",
+  MY_TICKET = "myTicket",
+  CHANGE_PASSWORD = "changePassword",
+  CONTACT = "contact",
+  FAQ = "faq",
+  LOGOUT = "logout",
+}
 
-export const MENU_LINKS = {
-  LOGIN: "Login",
-  REGISTER: "Register",
-  BOOK_TICKET: "Book ticket",
-  MY_TICKET: "My ticket",
-  CHANGE_PASSWORD: "Change password",
-  CONTACT: "Contact",
-  FAQ: "FAQ",
-  LOGOUT: "Log out",
-} as const;
+interface PageConfig {
+  path?: string;
+  label?: string;
+}
+
+export const pages: Record<PageRoute, PageConfig> = {
+  [PageRoute.HOME]: { path: "/" },
+  [PageRoute.LOGIN]: { path: "/Account/Login", label: "Login" },
+  [PageRoute.REGISTER]: { path: "/Account/Register", label: "Register" },
+  [PageRoute.BOOK_TICKET]: {
+    path: "/Page/BookTicketPage.cshtml",
+    label: "Book Ticket",
+  },
+  [PageRoute.MY_TICKET]: {
+    path: "/Page/ManageTicket.cshtml",
+    label: "My Ticket",
+  },
+  [PageRoute.CHANGE_PASSWORD]: {
+    path: "/Account/ChangePassword.cshtml",
+    label: "Change Password",
+  },
+  [PageRoute.CONTACT]: { path: "/Page/Contact.cshtml", label: "Contact" },
+  [PageRoute.FAQ]: { path: "/Page/FAQ.cshtml", label: "FAQ" },
+  [PageRoute.LOGOUT]: { label: "Log out" },
+};

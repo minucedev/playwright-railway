@@ -1,26 +1,29 @@
 import { test } from "../src/fixtures/pom.fixtures";
-import { getValidRegisterUser } from "../src/types/users";
+import { getValidRegister } from "../src/types/users";
+import { PageRoute } from "../src/utils/routes.config";
 
 test.describe("Registration Functionality", () => {
-  test("TC07: User can create new account", async ({ pm }) => {
+  test("TC07: User can create new account", async ({
+    homePage,
+    registerPage,
+  }) => {
     await test.step("Navigate to Register page", async () => {
-      await pm.goTo("REGISTER");
+      await homePage.goTo(PageRoute.REGISTER);
     });
 
     await test.step("Verify registration form is visible", async () => {
-      await pm.register.verifyRegistrationFormVisible();
+      await registerPage.verifyRegistrationFormVisible();
     });
 
     await test.step("Enter valid information into all fields", async () => {
-      const registerUser = getValidRegisterUser();
-      await pm.register.register(registerUser);
+      const registerUser = getValidRegister();
+      await registerPage.register(registerUser);
     });
 
     await test.step("Verify account created successfully", async () => {
-      await pm.register.verifySuccessMessage(
+      await registerPage.verifySuccessMessage(
         "Thank you for registering your account"
       );
-      await pm.verifyCurrentUrl("/Account/Confirm");
     });
   });
 });

@@ -1,16 +1,38 @@
 import { test as base } from "@playwright/test";
-import { PageManager } from "../utils/page.manager";
+import { HomePage } from "../pages/home.page";
+import { LoginPage } from "../pages/login.page";
+import { MyTicketPage } from "../pages/my.ticket.page";
+import { ChangePasswordPage } from "../pages/change.password.page";
+import { RegisterPage } from "../pages/register.page";
 
 type MyFixtures = {
-  pm: PageManager; // Page Manager for centralized page access and navigation
+  homePage: HomePage;
+  loginPage: LoginPage;
+  myTicketPage: MyTicketPage;
+  changePasswordPage: ChangePasswordPage;
+  registerPage: RegisterPage;
 };
 
 export const test = base.extend<MyFixtures>({
-  pm: async ({ page }, use) => {
-    const pm = new PageManager(page);
+  homePage: async ({ page }, use) => {
+    const homePage = new HomePage(page);
     await page.goto("/"); // Navigate to home once per test
-    await use(pm);
+    await use(homePage);
+  },
+  loginPage: async ({ page }, use) => {
+    const loginPage = new LoginPage(page);
+    await use(loginPage);
+  },
+  myTicketPage: async ({ page }, use) => {
+    const myTicketPage = new MyTicketPage(page);
+    await use(myTicketPage);
+  },
+  changePasswordPage: async ({ page }, use) => {
+    const changePasswordPage = new ChangePasswordPage(page);
+    await use(changePasswordPage);
+  },
+  registerPage: async ({ page }, use) => {
+    const registerPage = new RegisterPage(page);
+    await use(registerPage);
   },
 });
-
-export { expect } from "@playwright/test";

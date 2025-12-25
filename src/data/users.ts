@@ -33,3 +33,10 @@ export const mismatchPasswordRegister = (): RegisterUser => ({
   confirmPassword: "mismatch123456",
   pid: "123456789",
 });
+
+export const emptyPasswordPidRegister = (): RegisterUser => ({
+  email: generateEmail(),
+  password: "",
+  confirmPassword: "",
+  pid: "",
+});

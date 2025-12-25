@@ -5,6 +5,14 @@ import { BasePage } from "./base.page";
 import { getRandomDateFromDropdown } from "../utils/random.data";
 import { Messages } from "../utils/messages.config";
 
+type SelectName =
+  | "Date"
+  | "DepartStation"
+  | "ArriveStation"
+  | "SeatType"
+  | "TicketAmount";
+type TableHeader = "Depart Station" | "Arrive Station" | "Seat Type" | "Amount";
+
 export class BookTicketPage extends BasePage {
   readonly bookTicketButton: Locator;
   readonly successMessage: Locator;
@@ -23,7 +31,7 @@ export class BookTicketPage extends BasePage {
     );
   }
 
-  private getSelectByName(name: string): Locator {
+  private getSelectByName(name: SelectName): Locator {
     return this.page.locator(`select[name="${name}"]`);
   }
 
@@ -58,7 +66,7 @@ export class BookTicketPage extends BasePage {
     ).toBeVisible();
   }
 
-  private async getColumnIndex(headerText: string): Promise<number> {
+  private async getColumnIndex(headerText: TableHeader): Promise<number> {
     const headers = this.confirmBookedTicketTable.getByRole("columnheader");
     const count = await headers.count();
 
@@ -72,7 +80,9 @@ export class BookTicketPage extends BasePage {
     throw new Error(`Column with header "${headerText}" not found`);
   }
 
-  private async getTicketCellValue(headerText: string): Promise<string | null> {
+  private async getTicketCellValue(
+    headerText: TableHeader
+  ): Promise<string | null> {
     const columnIndex = await this.getColumnIndex(headerText);
 
     // Use getByRole to get all rows

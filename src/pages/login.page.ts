@@ -2,6 +2,7 @@ import { expect } from "@playwright/test";
 import type { Page, Locator } from "../types/playwright.types";
 import { User } from "../data/users";
 import { BasePage } from "./base.page";
+import { Messages } from "../utils/messages.config";
 
 export class LoginPage extends BasePage {
   readonly emailInput: Locator;
@@ -62,7 +63,7 @@ export class LoginPage extends BasePage {
   }
 
   async verifyLockoutMessage(attempts: number) {
-    const expectedMessage = `You have used ${attempts} out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes.`;
+    const expectedMessage = Messages.getLockoutMessage(attempts);
     await expect(
       this.errorMessage,
       `Lockout message should contain "${expectedMessage}"`

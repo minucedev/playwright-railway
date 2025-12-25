@@ -2,6 +2,7 @@ import { expect } from "@playwright/test";
 import type { Page, Locator } from "../types/playwright.types";
 import { BasePage } from "./base.page";
 import { getRandomDateFromDropdown } from "../utils/random.data";
+import { Messages } from "../utils/messages.config";
 
 export type BookTicketData = {
   date?: string;
@@ -32,7 +33,7 @@ export class BookTicketPage extends BasePage {
       'input[type="submit"][value="Book ticket"]'
     );
     this.successMessage = page.locator(
-      'h1:has-text("Ticket Booked Successfully!")'
+      `h1:has-text("${Messages.SUCCESS.TICKET_BOOKED}")`
     );
     this.ticketTable = page.locator(".DivTable .MyTable.WideTable");
   }

@@ -4,6 +4,7 @@ import { PageRoute } from "../src/utils/routes.config";
 import { HomePage } from "../src/pages/home.page";
 import { LoginPage } from "../src/pages/login.page";
 import { ChangePasswordPage } from "../src/pages/change.password.page";
+import { Messages } from "../src/utils/messages.config";
 
 test.describe("Change Password Functionality", () => {
   test("TC09: User can change password successfully", async ({
@@ -35,7 +36,7 @@ test.describe("Change Password Functionality", () => {
 
     await test.step("Verify password changed successfully", async () => {
       await changePasswordPage.verifySuccessMessage(
-        "Your password has been updated!"
+        Messages.SUCCESS.PASSWORD_CHANGED
       );
     });
   });

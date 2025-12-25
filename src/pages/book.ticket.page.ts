@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import type { Page, Locator, BookTicketData } from "../types/types";
+import type { Page, Locator, BookTicketData } from "../types/playwright.types";
 import { BasePage } from "./base.page";
 import { getRandomDateFromDropdown } from "../utils/random.data";
 import { Messages } from "../utils/messages.config";
@@ -7,17 +7,19 @@ import { Messages } from "../utils/messages.config";
 export class BookTicketPage extends BasePage {
   readonly bookTicketButton: Locator;
   readonly successMessage: Locator;
-  readonly ticketTable: Locator;
+  readonly confirmBookedTicketTable: Locator;
 
   constructor(page: Page) {
     super(page);
-    this.bookTicketButton = page.locator(
-      'input[type="submit"][value="Book ticket"]'
-    );
+    this.bookTicketButton = this.page.getByRole("button", {
+      name: "Book ticket",
+    });
     this.successMessage = page.locator(
       `h1:has-text("${Messages.SUCCESS.TICKET_BOOKED}")`
     );
-    this.ticketTable = page.locator(".DivTable .MyTable.WideTable");
+    this.confirmBookedTicketTable = page.locator(
+      ".DivTable .MyTable.WideTable"
+    );
   }
 
   private getSelectByName(name: string): Locator {
@@ -56,7 +58,7 @@ export class BookTicketPage extends BasePage {
   }
 
   private async getColumnIndex(headerText: string): Promise<number> {
-    const headers = this.ticketTable.locator("th");
+    const headers = this.confirmBookedTicketTable.getByRole("columnheader");
     const count = await headers.count();
 
     for (let i = 0; i < count; i++) {
@@ -71,9 +73,14 @@ export class BookTicketPage extends BasePage {
 
   private async getTicketCellValue(headerText: string): Promise<string | null> {
     const columnIndex = await this.getColumnIndex(headerText);
-    const ticketRows = this.ticketTable.locator("tbody tr");
-    const dataRow = ticketRows.last();
-    return await dataRow.locator("td").nth(columnIndex).textContent();
+
+    // Use getByRole to get all rows
+    const dataRows = this.confirmBookedTicketTable.getByRole("row");
+    const lastDataRow = dataRows.last();
+
+    // Use getByRole to get cells in the row
+    const cells = lastDataRow.getByRole("cell");
+    return await cells.nth(columnIndex).textContent();
   }
 
   async verifyTicketInfo(expectedData: Partial<BookTicketData>) {

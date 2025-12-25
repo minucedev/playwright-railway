@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import type { Page, Locator } from "../types/playwright.types";
+import type { Page, Locator } from "../types/types";
 import { BasePage } from "./base.page";
 
 export type ChangePasswordData = {

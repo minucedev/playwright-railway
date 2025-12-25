@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
-import type { Page, Locator, BookTicketData } from "../types/playwright.types";
+import type { Page, Locator } from "@playwright/test";
+import type { BookTicketData } from "../types/playwright.types";
 import { BasePage } from "./base.page";
 import { getRandomDateFromDropdown } from "../utils/random.data";
 import { Messages } from "../utils/messages.config";

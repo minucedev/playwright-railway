@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import type { Page, Locator } from "../types/types";
+import type { Page, Locator } from "@playwright/test";
 import { User } from "../data/users";
 import { BasePage } from "./base.page";
 import { Messages } from "../utils/messages.config";

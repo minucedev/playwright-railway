@@ -1,4 +1,4 @@
-import type { Page } from "../types/types";
+import type { Page } from "@playwright/test";
 import { BasePage } from "./base.page";
 
 export class MyTicketPage extends BasePage {

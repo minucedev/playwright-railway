@@ -94,37 +94,29 @@ export class BookTicketPage extends BasePage {
     return await cells.nth(columnIndex).textContent();
   }
 
-  async verifyTicketInfo(expectedData: Partial<BookTicketData>) {
-    if (expectedData.departStation) {
-      const actualValue = await this.getTicketCellValue("Depart Station");
-      expect(
-        actualValue?.trim(),
-        `Depart Station should be "${expectedData.departStation}"`
-      ).toBe(expectedData.departStation);
-    }
+  async verifyTicketInfo(expectedData: BookTicketData) {
+    const actualDepartStation = await this.getTicketCellValue("Depart Station");
+    expect(
+      actualDepartStation?.trim(),
+      `Depart Station should be "${expectedData.departStation}"`
+    ).toBe(expectedData.departStation);
 
-    if (expectedData.arriveStation) {
-      const actualValue = await this.getTicketCellValue("Arrive Station");
-      expect(
-        actualValue?.trim(),
-        `Arrive Station should be "${expectedData.arriveStation}"`
-      ).toBe(expectedData.arriveStation);
-    }
+    const actualArriveStation = await this.getTicketCellValue("Arrive Station");
+    expect(
+      actualArriveStation?.trim(),
+      `Arrive Station should be "${expectedData.arriveStation}"`
+    ).toBe(expectedData.arriveStation);
 
-    if (expectedData.seatType) {
-      const actualValue = await this.getTicketCellValue("Seat Type");
-      expect(
-        actualValue?.trim(),
-        `Seat Type should be "${expectedData.seatType}"`
-      ).toBe(expectedData.seatType);
-    }
+    const actualSeatType = await this.getTicketCellValue("Seat Type");
+    expect(
+      actualSeatType?.trim(),
+      `Seat Type should be "${expectedData.seatType}"`
+    ).toBe(expectedData.seatType);
 
-    if (expectedData.ticketAmount) {
-      const actualValue = await this.getTicketCellValue("Amount");
-      expect(
-        actualValue?.trim(),
-        `Ticket Amount should be "${expectedData.ticketAmount}"`
-      ).toBe(expectedData.ticketAmount);
-    }
+    const actualTicketAmount = await this.getTicketCellValue("Amount");
+    expect(
+      actualTicketAmount?.trim(),
+      `Ticket Amount should be "${expectedData.ticketAmount}"`
+    ).toBe(expectedData.ticketAmount);
   }
 }

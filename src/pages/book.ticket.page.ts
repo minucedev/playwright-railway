@@ -91,32 +91,57 @@ export class BookTicketPage extends BasePage {
     ).toBeVisible();
   }
 
-  async verifyTicketInfo(expectedData: Partial<BookTicketData>) {
-    const ticketRow = this.ticketTable.locator("tr.OddRow");
+  private async getColumnIndex(headerText: string): Promise<number> {
+    const headers = this.ticketTable.locator("tr.Header th");
+    const count = await headers.count();
 
+    for (let i = 0; i < count; i++) {
+      const text = await headers.nth(i).textContent();
+      if (text?.trim() === headerText) {
+        return i;
+      }
+    }
+
+    throw new Error(`Column with header "${headerText}" not found`);
+  }
+
+  private async getTicketCellValue(headerText: string): Promise<string | null> {
+    const columnIndex = await this.getColumnIndex(headerText);
+    const ticketRow = this.ticketTable.locator("tr.OddRow");
+    return await ticketRow.locator("td").nth(columnIndex).textContent();
+  }
+
+  async verifyTicketInfo(expectedData: Partial<BookTicketData>) {
     if (expectedData.departStation) {
-      await expect(
-        ticketRow.locator("td").nth(0),
+      const actualValue = await this.getTicketCellValue("Depart Station");
+      expect(
+        actualValue?.trim(),
         `Depart Station should be "${expectedData.departStation}"`
-      ).toHaveText(expectedData.departStation);
+      ).toBe(expectedData.departStation);
     }
+
     if (expectedData.arriveStation) {
-      await expect(
-        ticketRow.locator("td").nth(1),
+      const actualValue = await this.getTicketCellValue("Arrive Station");
+      expect(
+        actualValue?.trim(),
         `Arrive Station should be "${expectedData.arriveStation}"`
-      ).toHaveText(expectedData.arriveStation);
+      ).toBe(expectedData.arriveStation);
     }
+
     if (expectedData.seatType) {
-      await expect(
-        ticketRow.locator("td").nth(2),
+      const actualValue = await this.getTicketCellValue("Seat Type");
+      expect(
+        actualValue?.trim(),
         `Seat Type should be "${expectedData.seatType}"`
-      ).toHaveText(expectedData.seatType);
+      ).toBe(expectedData.seatType);
     }
+
     if (expectedData.ticketAmount) {
-      await expect(
-        ticketRow.locator("td").nth(6),
+      const actualValue = await this.getTicketCellValue("Amount");
+      expect(
+        actualValue?.trim(),
         `Ticket Amount should be "${expectedData.ticketAmount}"`
-      ).toHaveText(expectedData.ticketAmount);
+      ).toBe(expectedData.ticketAmount);
     }
   }
 }

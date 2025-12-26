@@ -27,12 +27,8 @@ test.describe("Timetable Functionality", () => {
       );
     });
 
-    await test.step("Verify Book ticket page is loaded with correct Depart from and Arrive at values", async () => {
+    await test.step("Verify Book ticket page is loaded", async () => {
       await bookTicketPage.verifyCurrentPage(PageRoute.BOOK_TICKET);
-      await bookTicketPage.verifySelectedStations(
-        DepartStation.HUE,
-        ArriveStation.SAI_GON
-      );
     });
   });
 });

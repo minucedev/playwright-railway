@@ -99,10 +99,17 @@ export class BookTicketPage extends BasePage {
   }
 
   async verifySelectedStations(expectedDepart: string, expectedArrive: string) {
-    const selectedDepartText = await this.departStationSelect
+    const departSelect = this.getTicketBookingValue(
+      TicketProperty.DepartStation
+    );
+    const arriveSelect = this.getTicketBookingValue(
+      TicketProperty.ArriveStation
+    );
+
+    const selectedDepartText = await departSelect
       .locator("option:checked")
       .textContent();
-    const selectedArriveText = await this.arriveStationSelect
+    const selectedArriveText = await arriveSelect
       .locator("option:checked")
       .textContent();
 

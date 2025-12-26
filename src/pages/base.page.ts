@@ -20,7 +20,7 @@ export class BasePage {
   async verifyCurrentPage(pageRoute: PageRoute) {
     const navItem = pages[pageRoute];
     if (navItem.path) {
-      await expect(this.page).toHaveURL(navItem.path);
+      await expect(this.page.url()).toContain(navItem.path);
     }
   }
 

@@ -1,5 +1,4 @@
-import { expect } from "@playwright/test";
-import type { Page, Locator } from "../types/playwright.types";
+import { Page, Locator } from "@playwright/test";
 import { BasePage } from "./base.page";
 
 export class TimetablePage extends BasePage {
@@ -10,12 +9,20 @@ export class TimetablePage extends BasePage {
     this.timetableTable = page.locator("table.MyTable.WideTable");
   }
 
-  async clickBookTicketLink(departStation: string, arriveStation: string) {
-    const row = this.timetableTable
+  private getRouteRow(departStation: string, arriveStation: string): Locator {
+    return this.timetableTable
       .locator("tr")
-      .filter({ has: this.page.locator(`td:has-text("${departStation}")`) })
-      .filter({ has: this.page.locator(`td:has-text("${arriveStation}")`) });
+      .filter({
+        has: this.page.locator("td").filter({ hasText: departStation }).first(),
+      })
+      .filter({
+        has: this.page.locator("td").filter({ hasText: arriveStation }).first(),
+      })
+      .first();
+  }
 
+  async clickBookTicketLink(departStation: string, arriveStation: string) {
+    const row = this.getRouteRow(departStation, arriveStation);
     await row.locator('a:has-text("book ticket")').click();
   }
 }

@@ -4,14 +4,7 @@ import type { BookTicketData } from "../types/playwright.types";
 import { BasePage } from "./base.page";
 import { getRandomDateFromDropdown } from "../utils/random.data";
 import { Messages } from "../utils/messages.config";
-
-type SelectName =
-  | "Date"
-  | "DepartStation"
-  | "ArriveStation"
-  | "SeatType"
-  | "TicketAmount";
-type TableHeader = "Depart Station" | "Arrive Station" | "Seat Type" | "Amount";
+import { SELECT_NAMES, type SelectName } from "../utils/select.names";
 
 export class BookTicketPage extends BasePage {
   readonly bookTicketButton: Locator;
@@ -39,22 +32,26 @@ export class BookTicketPage extends BasePage {
     let selectedDate: string;
 
     if (data.date) {
-      await this.getSelectByName("Date").selectOption(data.date);
+      await this.getSelectByName(SELECT_NAMES.Date).selectOption(data.date);
       selectedDate = data.date;
     } else {
-      const dateSelect = this.getSelectByName("Date");
+      const dateSelect = this.getSelectByName(SELECT_NAMES.Date);
       selectedDate = await getRandomDateFromDropdown(dateSelect);
       await dateSelect.selectOption(selectedDate);
     }
 
-    await this.getSelectByName("DepartStation").selectOption(
+    await this.getSelectByName(SELECT_NAMES.DepartStation).selectOption(
       data.departStation
     );
-    await this.getSelectByName("ArriveStation").selectOption(
+    await this.getSelectByName(SELECT_NAMES.ArriveStation).selectOption(
       data.arriveStation
     );
-    await this.getSelectByName("SeatType").selectOption(data.seatType);
-    await this.getSelectByName("TicketAmount").selectOption(data.ticketAmount);
+    await this.getSelectByName(SELECT_NAMES.SeatType).selectOption(
+      data.seatType
+    );
+    await this.getSelectByName(SELECT_NAMES.TicketAmount).selectOption(
+      data.ticketAmount
+    );
     await this.bookTicketButton.click();
     return selectedDate;
   }
@@ -66,57 +63,36 @@ export class BookTicketPage extends BasePage {
     ).toBeVisible();
   }
 
-  private async getColumnIndex(headerText: TableHeader): Promise<number> {
+  private async getCellByHeader(headerText: string): Promise<Locator> {
     const headers = this.confirmBookedTicketTable.getByRole("columnheader");
-    const count = await headers.count();
+    const dataRow = this.confirmBookedTicketTable.getByRole("row").last();
+    const headerCount = await headers.count();
 
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < headerCount; i++) {
       const text = await headers.nth(i).textContent();
       if (text?.trim() === headerText) {
-        return i;
+        return dataRow.getByRole("cell").nth(i);
       }
     }
 
     throw new Error(`Column with header "${headerText}" not found`);
   }
 
-  private async getTicketCellValue(
-    headerText: TableHeader
-  ): Promise<string | null> {
-    const columnIndex = await this.getColumnIndex(headerText);
-
-    // Use getByRole to get all rows
-    const dataRows = this.confirmBookedTicketTable.getByRole("row");
-    const lastDataRow = dataRows.last();
-
-    // Use getByRole to get cells in the row
-    const cells = lastDataRow.getByRole("cell");
-    return await cells.nth(columnIndex).textContent();
+  async verifyData(header: string, value: string) {
+    const cell = await this.getCellByHeader(header);
+    await expect(cell, `${header} should be "${value}"`).toHaveText(value);
   }
 
   async verifyTicketInfo(expectedData: BookTicketData) {
-    const actualDepartStation = await this.getTicketCellValue("Depart Station");
-    expect(
-      actualDepartStation?.trim(),
-      `Depart Station should be "${expectedData.departStation}"`
-    ).toBe(expectedData.departStation);
+    const fields = [
+      { header: "Depart Station", key: "departStation" as const },
+      { header: "Arrive Station", key: "arriveStation" as const },
+      { header: "Seat Type", key: "seatType" as const },
+      { header: "Amount", key: "ticketAmount" as const },
+    ];
 
-    const actualArriveStation = await this.getTicketCellValue("Arrive Station");
-    expect(
-      actualArriveStation?.trim(),
-      `Arrive Station should be "${expectedData.arriveStation}"`
-    ).toBe(expectedData.arriveStation);
-
-    const actualSeatType = await this.getTicketCellValue("Seat Type");
-    expect(
-      actualSeatType?.trim(),
-      `Seat Type should be "${expectedData.seatType}"`
-    ).toBe(expectedData.seatType);
-
-    const actualTicketAmount = await this.getTicketCellValue("Amount");
-    expect(
-      actualTicketAmount?.trim(),
-      `Ticket Amount should be "${expectedData.ticketAmount}"`
-    ).toBe(expectedData.ticketAmount);
+    for (const { header, key } of fields) {
+      await this.verifyData(header, expectedData[key]);
+    }
   }
 }

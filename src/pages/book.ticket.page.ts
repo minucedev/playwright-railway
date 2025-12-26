@@ -4,7 +4,7 @@ import type { BookTicketData } from "../types/playwright.types";
 import { BasePage } from "./base.page";
 import { getRandomDateFromDropdown } from "../utils/random.data";
 import { Messages } from "../utils/messages.config";
-import { SELECT_NAMES, type SelectName } from "../utils/select.names";
+import { TicketBooked } from "../utils/ticket.info";
 
 export class BookTicketPage extends BasePage {
   readonly bookTicketButton: Locator;
@@ -24,7 +24,7 @@ export class BookTicketPage extends BasePage {
     );
   }
 
-  private getSelectByName(name: SelectName): Locator {
+  private getTicketBookingValue(name: TicketBooked): Locator {
     return this.page.locator(`select[name="${name}"]`);
   }
 
@@ -32,24 +32,26 @@ export class BookTicketPage extends BasePage {
     let selectedDate: string;
 
     if (data.date) {
-      await this.getSelectByName(SELECT_NAMES.Date).selectOption(data.date);
+      await this.getTicketBookingValue(TicketBooked.Date).selectOption(
+        data.date
+      );
       selectedDate = data.date;
     } else {
-      const dateSelect = this.getSelectByName(SELECT_NAMES.Date);
+      const dateSelect = this.getTicketBookingValue(TicketBooked.Date);
       selectedDate = await getRandomDateFromDropdown(dateSelect);
       await dateSelect.selectOption(selectedDate);
     }
 
-    await this.getSelectByName(SELECT_NAMES.DepartStation).selectOption(
+    await this.getTicketBookingValue(TicketBooked.DepartStation).selectOption(
       data.departStation
     );
-    await this.getSelectByName(SELECT_NAMES.ArriveStation).selectOption(
+    await this.getTicketBookingValue(TicketBooked.ArriveStation).selectOption(
       data.arriveStation
     );
-    await this.getSelectByName(SELECT_NAMES.SeatType).selectOption(
+    await this.getTicketBookingValue(TicketBooked.SeatType).selectOption(
       data.seatType
     );
-    await this.getSelectByName(SELECT_NAMES.TicketAmount).selectOption(
+    await this.getTicketBookingValue(TicketBooked.TicketAmount).selectOption(
       data.ticketAmount
     );
     await this.bookTicketButton.click();
@@ -83,7 +85,7 @@ export class BookTicketPage extends BasePage {
     await expect(cell, `${header} should be "${value}"`).toHaveText(value);
   }
 
-  async verifyTicketInfo(expectedData: BookTicketData) {
+  async verifyBookingTicketInfo(expectedData: BookTicketData) {
     const fields = [
       { header: "Depart Station", key: "departStation" as const },
       { header: "Arrive Station", key: "arriveStation" as const },

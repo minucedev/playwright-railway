@@ -28,7 +28,7 @@ test.describe("Book Ticket Functionality", () => {
     });
 
     await test.step("Verify ticket information displays correctly", async () => {
-      await bookTicketPage.verifyTicketInfo(validTicket);
+      await bookTicketPage.verifyBookingTicketInfo(validTicket);
     });
   });
 });

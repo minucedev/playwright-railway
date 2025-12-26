@@ -1,9 +1,9 @@
-export const SELECT_NAMES = {
-  Date: "Date",
-  DepartStation: "DepartStation",
-  ArriveStation: "ArriveStation",
-  SeatType: "SeatType",
-  TicketAmount: "TicketAmount",
-} as const;
+export enum SELECT_NAMES {
+  Date = "Date",
+  DepartStation = "DepartStation",
+  ArriveStation = "ArriveStation",
+  SeatType = "SeatType",
+  TicketAmount = "TicketAmount",
+}
 
-export type SelectName = (typeof SELECT_NAMES)[keyof typeof SELECT_NAMES];
+export type SelectName = SELECT_NAMES;

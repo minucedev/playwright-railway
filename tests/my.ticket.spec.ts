@@ -26,12 +26,12 @@ test.describe("My Ticket Functionality", () => {
       await homePage.goTo(PageRoute.MY_TICKET);
     });
 
-    await test.step("Click on Cancel button of ticket which user want to cancel", async () => {
-      const initialCount = await myTicketPage.cancelTicketByInfo(validTicket);
+    await test.step("Cancel the booked ticket", async () => {
+      await myTicketPage.cancelTicket(validTicket);
+    });
 
-      await test.step("Verify the canceled ticket is disappeared", async () => {
-        await myTicketPage.verifyTicketCanceled(initialCount, validTicket);
-      });
+    await test.step("Verify the canceled ticket is removed", async () => {
+      await myTicketPage.verifyTicketRemoved(validTicket);
     });
   });
 });

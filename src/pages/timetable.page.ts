@@ -1,21 +1,35 @@
-import { expect } from "@playwright/test";
-import type { Page, Locator } from "../types/playwright.types";
+import { Page, Locator } from "@playwright/test";
 import { BasePage } from "./base.page";
+import { DepartStation, ArriveStation } from "../utils/ticket.config";
 
-export class TimetablePage extends BasePage {
+export class TimeTablePage extends BasePage {
   readonly timetableTable: Locator;
 
   constructor(page: Page) {
     super(page);
-    this.timetableTable = page.locator("table.MyTable.WideTable");
+    this.timetableTable = page.getByRole("table");
   }
 
-  async clickBookTicketLink(departStation: string, arriveStation: string) {
-    const row = this.timetableTable
-      .locator("tr")
-      .filter({ has: this.page.locator(`td:has-text("${departStation}")`) })
-      .filter({ has: this.page.locator(`td:has-text("${arriveStation}")`) });
+  private getRouteRow(
+    departStation: DepartStation,
+    arriveStation: ArriveStation
+  ): Locator {
+    return this.timetableTable
+      .getByRole("row")
+      .filter({
+        has: this.page.getByRole("cell").filter({ hasText: departStation }),
+      })
+      .filter({
+        has: this.page.getByRole("cell").filter({ hasText: arriveStation }),
+      })
+      .first();
+  }
 
-    await row.locator('a:has-text("book ticket")').click();
+  async clickBookTicketLink(
+    departStation: DepartStation,
+    arriveStation: ArriveStation
+  ) {
+    const row = this.getRouteRow(departStation, arriveStation);
+    await row.getByRole("link", { name: "book ticket" }).click();
   }
 }

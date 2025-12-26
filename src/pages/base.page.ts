@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import type { Page, Locator } from "../types/playwright.types";
+import type { Page, Locator } from "@playwright/test";
 import { pages, PageRoute } from "../utils/routes.config";
 
 export class BasePage {
@@ -20,7 +20,7 @@ export class BasePage {
   async verifyCurrentPage(pageRoute: PageRoute) {
     const navItem = pages[pageRoute];
     if (navItem.path) {
-      await expect(this.page).toHaveURL(navItem.path);
+      await expect(this.page).toHaveURL(new RegExp(navItem.path));
     }
   }
 

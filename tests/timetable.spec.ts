@@ -7,7 +7,7 @@ test.describe("Timetable Functionality", () => {
   test("TC15: User can open Book ticket page by clicking on Book ticket link in Train timetable page", async ({
     homePage,
     loginPage,
-    timetablePage,
+    timeTablePage,
     bookTicketPage,
   }) => {
     await test.step("Login with valid credentials", async () => {
@@ -21,7 +21,7 @@ test.describe("Timetable Functionality", () => {
     });
 
     await test.step('Click on "book ticket" link of the route from Huế to Sài Gòn', async () => {
-      await timetablePage.clickBookTicketLink(
+      await timeTablePage.clickBookTicketLink(
         DepartStation.HUE,
         ArriveStation.SAI_GON
       );

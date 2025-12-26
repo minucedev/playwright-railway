@@ -5,7 +5,7 @@ import { MyTicketPage } from "../pages/my.ticket.page";
 import { ChangePasswordPage } from "../pages/change.password.page";
 import { RegisterPage } from "../pages/register.page";
 import { BookTicketPage } from "../pages/book.ticket.page";
-import { TimetablePage } from "../pages/timetable.page";
+import { TimeTablePage } from "../pages/timetable.page";
 
 type MyFixtures = {
   homePage: HomePage;
@@ -14,7 +14,7 @@ type MyFixtures = {
   changePasswordPage: ChangePasswordPage;
   registerPage: RegisterPage;
   bookTicketPage: BookTicketPage;
-  timetablePage: TimetablePage;
+  timeTablePage: TimeTablePage;
 };
 
 export const test = base.extend<MyFixtures>({
@@ -43,8 +43,8 @@ export const test = base.extend<MyFixtures>({
     const bookTicketPage = new BookTicketPage(page);
     await use(bookTicketPage);
   },
-  timetablePage: async ({ page }, use) => {
-    const timetablePage = new TimetablePage(page);
-    await use(timetablePage);
+  timeTablePage: async ({ page }, use) => {
+    const timeTablePage = new TimeTablePage(page);
+    await use(timeTablePage);
   },
 });

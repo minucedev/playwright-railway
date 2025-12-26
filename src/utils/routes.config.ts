@@ -5,6 +5,7 @@ export enum PageRoute {
   BOOK_TICKET = "bookTicket",
   MY_TICKET = "myTicket",
   CHANGE_PASSWORD = "changePassword",
+  TIMETABLE = "timetable",
   CONTACT = "contact",
   FAQ = "faq",
   LOGOUT = "logout",
@@ -30,6 +31,10 @@ export const pages: Record<PageRoute, PageConfig> = {
   [PageRoute.CHANGE_PASSWORD]: {
     path: "/Account/ChangePassword.cshtml",
     label: "Change Password",
+  },
+  [PageRoute.TIMETABLE]: {
+    path: "/Page/TrainTimeListPage.cshtml",
+    label: "Timetable",
   },
   [PageRoute.CONTACT]: { path: "/Page/Contact.cshtml", label: "Contact" },
   [PageRoute.FAQ]: { path: "/Page/FAQ.cshtml", label: "FAQ" },

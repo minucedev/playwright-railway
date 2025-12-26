@@ -5,6 +5,7 @@ import {
   invalidPassword,
 } from "../src/data/users";
 import { PageRoute } from "../src/utils/routes.config";
+import { Messages } from "../src/utils/messages.config";
 
 test.describe("Login Functionality", () => {
   test("TC01: Login successfully with valid credentials", async ({
@@ -46,9 +47,7 @@ test.describe("Login Functionality", () => {
     });
 
     await test.step("Verify error message is displayed", async () => {
-      const expectedMessage =
-        "There was a problem with your login and/or errors exist in your form.";
-      await loginPage.verifyErrorMessageExactly(expectedMessage);
+      await loginPage.verifyErrorMessageExactly(Messages.ERROR.LOGIN_PROBLEM);
     });
   });
   test("TC03: Login with invalid password", async ({ homePage, loginPage }) => {
@@ -62,8 +61,9 @@ test.describe("Login Functionality", () => {
       await loginPage.login(invalidPassword);
     });
     await test.step("Verify error message is displayed", async () => {
-      const expectedMessage = "Invalid username or password. Please try again.";
-      await loginPage.verifyErrorMessageExactly(expectedMessage);
+      await loginPage.verifyErrorMessageExactly(
+        Messages.ERROR.INVALID_CREDENTIALS
+      );
     });
   });
 

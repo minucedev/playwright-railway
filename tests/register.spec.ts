@@ -5,6 +5,7 @@ import {
   emptyPasswordPidRegister,
 } from "../src/data/users";
 import { PageRoute } from "../src/utils/routes.config";
+import { Messages } from "../src/utils/messages.config";
 
 test.describe("Registration Functionality", () => {
   test("TC07: User can create new account", async ({
@@ -25,9 +26,7 @@ test.describe("Registration Functionality", () => {
     });
 
     await test.step("Verify account created successfully", async () => {
-      await registerPage.verifySuccessMessage(
-        "Thank you for registering your account"
-      );
+      await registerPage.verifySuccessMessage(Messages.SUCCESS.REGISTER);
     });
   });
 
@@ -49,9 +48,7 @@ test.describe("Registration Functionality", () => {
     });
 
     await test.step("Verify error message is displayed", async () => {
-      await registerPage.verifyErrorMessage(
-        "There're errors in the form. Please correct the errors and try again."
-      );
+      await registerPage.verifyErrorMessage(Messages.ERROR.FORM_ERRORS);
     });
   });
 
@@ -73,9 +70,7 @@ test.describe("Registration Functionality", () => {
     });
 
     await test.step("Verify error message is displayed", async () => {
-      await registerPage.verifyErrorMessage(
-        "There're errors in the form. Please correct the errors and try again."
-      );
+      await registerPage.verifyErrorMessage(Messages.ERROR.FORM_ERRORS);
     });
 
     await test.step("Verify field validation errors are displayed", async () => {

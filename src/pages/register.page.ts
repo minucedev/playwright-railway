@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
-import type { Page, Locator } from "../types/playwright.types";
+import type { Page, Locator } from "@playwright/test";
+import { Messages } from "../utils/messages.config";
 
 export type RegisterUser = {
   email: string;
@@ -97,9 +98,9 @@ export class RegisterPage {
         this.passwordValidationError,
         "Password validation error should be visible"
       )
-      .toContainText("Invalid password length");
+      .toContainText(Messages.VALIDATION.INVALID_PASSWORD_LENGTH);
     await expect
       .soft(this.pidValidationError, "PID validation error should be visible")
-      .toContainText("Invalid ID length");
+      .toContainText(Messages.VALIDATION.INVALID_PID);
   }
 }

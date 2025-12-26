@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
-import type { Page, Locator } from "../types/playwright.types";
+import type { Page, Locator } from "@playwright/test";
+import { Messages } from "../utils/messages.config";
 
 export type RegisterUser = {
   email: string;
@@ -17,6 +18,8 @@ export class RegisterPage {
   readonly registerButton: Locator;
   readonly successMessage: Locator;
   readonly errorMessage: Locator;
+  readonly passwordValidationError: Locator;
+  readonly pidValidationError: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -32,6 +35,10 @@ export class RegisterPage {
     });
     this.successMessage = page.locator("#content > p");
     this.errorMessage = page.locator("p.message.error");
+    this.passwordValidationError = page.locator(
+      'label[for="password"].validation-error'
+    );
+    this.pidValidationError = page.locator('label[for="pid"].validation-error');
   }
 
   async fillRegistrationForm(user: RegisterUser) {
@@ -83,5 +90,17 @@ export class RegisterPage {
       this.errorMessage,
       `Error message should contain "${expectedMessage}"`
     ).toContainText(expectedMessage);
+  }
+
+  async verifyFieldValidationErrors() {
+    await expect
+      .soft(
+        this.passwordValidationError,
+        "Password validation error should be visible"
+      )
+      .toContainText(Messages.VALIDATION.INVALID_PASSWORD_LENGTH);
+    await expect
+      .soft(this.pidValidationError, "PID validation error should be visible")
+      .toContainText(Messages.VALIDATION.INVALID_PID);
   }
 }

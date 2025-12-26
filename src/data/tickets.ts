@@ -1,4 +1,4 @@
-import type { BookTicketData } from "../pages/book.ticket.page";
+import type { BookTicketData } from "../types/playwright.types";
 import { SeatType, DepartStation, ArriveStation } from "../utils/ticket.config";
 
 export const validTicket: BookTicketData = {

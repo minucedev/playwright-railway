@@ -1,85 +1,60 @@
 import { expect } from "@playwright/test";
-import type { Page, Locator } from "../types/playwright.types";
+import type { Page, Locator } from "@playwright/test";
+import type { BookTicketData } from "../types/playwright.types";
 import { BasePage } from "./base.page";
 import { getRandomDateFromDropdown } from "../utils/random.data";
-
-export type BookTicketData = {
-  date?: string;
-  departStation: string;
-  arriveStation: string;
-  seatType: string;
-  ticketAmount: string;
-};
+import { Messages } from "../utils/messages.config";
+import { TicketProperty } from "../utils/ticket.info";
 
 export class BookTicketPage extends BasePage {
-  readonly dateSelect: Locator;
-  readonly departStationSelect: Locator;
-  readonly arriveStationSelect: Locator;
-  readonly seatTypeSelect: Locator;
-  readonly ticketAmountSelect: Locator;
   readonly bookTicketButton: Locator;
   readonly successMessage: Locator;
-  readonly ticketTable: Locator;
+  readonly confirmBookedTicketTable: Locator;
 
   constructor(page: Page) {
     super(page);
-    this.dateSelect = page.locator('select[name="Date"]');
-    this.departStationSelect = page.locator('select[name="DepartStation"]');
-    this.arriveStationSelect = page.locator('select[name="ArriveStation"]');
-    this.seatTypeSelect = page.locator('select[name="SeatType"]');
-    this.ticketAmountSelect = page.locator('select[name="TicketAmount"]');
-    this.bookTicketButton = page.locator(
-      'input[type="submit"][value="Book ticket"]'
-    );
+    this.bookTicketButton = this.page.getByRole("button", {
+      name: "Book ticket",
+    });
     this.successMessage = page.locator(
-      'h1:has-text("Ticket Booked Successfully!")'
+      `h1:has-text("${Messages.SUCCESS.TICKET_BOOKED}")`
     );
-    this.ticketTable = page.locator(".DivTable .MyTable.WideTable");
+    this.confirmBookedTicketTable = page.locator(
+      ".DivTable .MyTable.WideTable"
+    );
   }
 
-  async selectDate(date: string) {
-    await this.dateSelect.selectOption(date);
-  }
-
-  async selectRandomDate(): Promise<string> {
-    const selectedDate = await getRandomDateFromDropdown(this.dateSelect);
-    await this.dateSelect.selectOption(selectedDate);
-    return selectedDate;
-  }
-
-  async selectDepartStation(station: string) {
-    await this.departStationSelect.selectOption(station);
-  }
-
-  async selectArriveStation(station: string) {
-    await this.arriveStationSelect.selectOption(station);
-  }
-
-  async selectSeatType(seatType: string) {
-    await this.seatTypeSelect.selectOption(seatType);
-  }
-
-  async selectTicketAmount(amount: string) {
-    await this.ticketAmountSelect.selectOption(amount);
-  }
-
-  async submitBookTicket() {
-    await this.bookTicketButton.click();
+  private getTicketBookingValue(name: TicketProperty): Locator {
+    return this.page.locator(`select[name="${name}"]`);
   }
 
   async bookTicket(data: BookTicketData): Promise<string> {
     let selectedDate: string;
+
     if (data.date) {
-      await this.selectDate(data.date);
+      await this.getTicketBookingValue(TicketProperty.Date).selectOption(
+        data.date
+      );
       selectedDate = data.date;
     } else {
-      selectedDate = await this.selectRandomDate();
+      const dateSelect = this.getTicketBookingValue(TicketProperty.Date);
+      selectedDate = await getRandomDateFromDropdown(dateSelect);
+      await dateSelect.selectOption(selectedDate);
     }
-    await this.selectDepartStation(data.departStation);
-    await this.selectArriveStation(data.arriveStation);
-    await this.selectSeatType(data.seatType);
-    await this.selectTicketAmount(data.ticketAmount);
-    await this.submitBookTicket();
+
+    await this.getTicketBookingValue(TicketProperty.DepartStation).selectOption(
+      data.departStation
+    );
+    await this.getTicketBookingValue(TicketProperty.ArriveStation).selectOption(
+      data.arriveStation
+    );
+    await this.getTicketBookingValue(TicketProperty.SeatType).selectOption(
+      data.seatType
+    );
+    await this.getTicketBookingValue(TicketProperty.TicketAmount).selectOption(
+      data.ticketAmount
+    );
+    await this.bookTicketButton.click();
     return selectedDate;
   }
 
@@ -90,32 +65,36 @@ export class BookTicketPage extends BasePage {
     ).toBeVisible();
   }
 
-  async verifyTicketInfo(expectedData: Partial<BookTicketData>) {
-    const ticketRow = this.ticketTable.locator("tr.OddRow");
+  private async getCellByHeader(headerText: string): Promise<Locator> {
+    const headers = this.confirmBookedTicketTable.getByRole("columnheader");
+    const dataRow = this.confirmBookedTicketTable.getByRole("row").last();
+    const headerCount = await headers.count();
 
-    if (expectedData.departStation) {
-      await expect(
-        ticketRow.locator("td").nth(0),
-        `Depart Station should be "${expectedData.departStation}"`
-      ).toHaveText(expectedData.departStation);
+    for (let i = 0; i < headerCount; i++) {
+      const text = await headers.nth(i).textContent();
+      if (text?.trim() === headerText) {
+        return dataRow.getByRole("cell").nth(i);
+      }
     }
-    if (expectedData.arriveStation) {
-      await expect(
-        ticketRow.locator("td").nth(1),
-        `Arrive Station should be "${expectedData.arriveStation}"`
-      ).toHaveText(expectedData.arriveStation);
-    }
-    if (expectedData.seatType) {
-      await expect(
-        ticketRow.locator("td").nth(2),
-        `Seat Type should be "${expectedData.seatType}"`
-      ).toHaveText(expectedData.seatType);
-    }
-    if (expectedData.ticketAmount) {
-      await expect(
-        ticketRow.locator("td").nth(6),
-        `Ticket Amount should be "${expectedData.ticketAmount}"`
-      ).toHaveText(expectedData.ticketAmount);
+
+    throw new Error(`Column with header "${headerText}" not found`);
+  }
+
+  async verifyData(header: string, value: string) {
+    const cell = await this.getCellByHeader(header);
+    await expect(cell, `${header} should be "${value}"`).toHaveText(value);
+  }
+
+  async verifyBookingTicketInfo(expectedData: BookTicketData) {
+    const fields = [
+      { header: "Depart Station", key: "departStation" as const },
+      { header: "Arrive Station", key: "arriveStation" as const },
+      { header: "Seat Type", key: "seatType" as const },
+      { header: "Amount", key: "ticketAmount" as const },
+    ];
+
+    for (const { header, key } of fields) {
+      await this.verifyData(header, expectedData[key]);
     }
   }
 

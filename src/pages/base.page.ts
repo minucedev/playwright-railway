@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import type { Page, Locator } from "../types/playwright.types";
+import type { Page, Locator } from "@playwright/test";
 import { pages, PageRoute } from "../utils/routes.config";
 
 export class BasePage {

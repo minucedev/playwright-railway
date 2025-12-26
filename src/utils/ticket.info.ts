@@ -1,4 +1,4 @@
-export enum TicketBooked {
+export enum TicketProperty {
   Date = "Date",
   DepartStation = "DepartStation",
   ArriveStation = "ArriveStation",

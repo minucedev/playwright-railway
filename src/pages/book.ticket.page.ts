@@ -4,7 +4,7 @@ import type { BookTicketData } from "../types/playwright.types";
 import { BasePage } from "./base.page";
 import { getRandomDateFromDropdown } from "../utils/random.data";
 import { Messages } from "../utils/messages.config";
-import { TicketBooked } from "../utils/ticket.info";
+import { TicketProperty } from "../utils/ticket.info";
 
 export class BookTicketPage extends BasePage {
   readonly bookTicketButton: Locator;
@@ -24,7 +24,7 @@ export class BookTicketPage extends BasePage {
     );
   }
 
-  private getTicketBookingValue(name: TicketBooked): Locator {
+  private getTicketBookingValue(name: TicketProperty): Locator {
     return this.page.locator(`select[name="${name}"]`);
   }
 
@@ -32,26 +32,26 @@ export class BookTicketPage extends BasePage {
     let selectedDate: string;
 
     if (data.date) {
-      await this.getTicketBookingValue(TicketBooked.Date).selectOption(
+      await this.getTicketBookingValue(TicketProperty.Date).selectOption(
         data.date
       );
       selectedDate = data.date;
     } else {
-      const dateSelect = this.getTicketBookingValue(TicketBooked.Date);
+      const dateSelect = this.getTicketBookingValue(TicketProperty.Date);
       selectedDate = await getRandomDateFromDropdown(dateSelect);
       await dateSelect.selectOption(selectedDate);
     }
 
-    await this.getTicketBookingValue(TicketBooked.DepartStation).selectOption(
+    await this.getTicketBookingValue(TicketProperty.DepartStation).selectOption(
       data.departStation
     );
-    await this.getTicketBookingValue(TicketBooked.ArriveStation).selectOption(
+    await this.getTicketBookingValue(TicketProperty.ArriveStation).selectOption(
       data.arriveStation
     );
-    await this.getTicketBookingValue(TicketBooked.SeatType).selectOption(
+    await this.getTicketBookingValue(TicketProperty.SeatType).selectOption(
       data.seatType
     );
-    await this.getTicketBookingValue(TicketBooked.TicketAmount).selectOption(
+    await this.getTicketBookingValue(TicketProperty.TicketAmount).selectOption(
       data.ticketAmount
     );
     await this.bookTicketButton.click();

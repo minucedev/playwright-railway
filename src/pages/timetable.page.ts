@@ -1,5 +1,6 @@
 import { Page, Locator } from "@playwright/test";
 import { BasePage } from "./base.page";
+import { DepartStation, ArriveStation } from "../utils/ticket.config";
 
 export class TimeTablePage extends BasePage {
   readonly timetableTable: Locator;
@@ -9,7 +10,10 @@ export class TimeTablePage extends BasePage {
     this.timetableTable = page.getByRole("table");
   }
 
-  private getRouteRow(departStation: string, arriveStation: string): Locator {
+  private getRouteRow(
+    departStation: DepartStation,
+    arriveStation: ArriveStation
+  ): Locator {
     return this.timetableTable
       .getByRole("row")
       .filter({
@@ -21,7 +25,10 @@ export class TimeTablePage extends BasePage {
       .first();
   }
 
-  async clickBookTicketLink(departStation: string, arriveStation: string) {
+  async clickBookTicketLink(
+    departStation: DepartStation,
+    arriveStation: ArriveStation
+  ) {
     const row = this.getRouteRow(departStation, arriveStation);
     await row.getByRole("link", { name: "book ticket" }).click();
   }

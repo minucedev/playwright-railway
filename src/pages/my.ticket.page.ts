@@ -12,7 +12,9 @@ export class MyTicketPage extends BasePage {
   }
 
   private getCancelButtonLocator(ticketId: string): Locator {
-    return this.page.locator(`input[type="button"][value="Cancel"][onclick*="DeleteTicket(${ticketId})"]`);
+    return this.page.locator(
+      `input[type="button"][value="Cancel"][onclick*="DeleteTicket(${ticketId})"]`
+    );
   }
 
   async cancelTicket(ticketId: string) {

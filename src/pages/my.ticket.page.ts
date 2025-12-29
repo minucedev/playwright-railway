@@ -23,11 +23,14 @@ export class MyTicketPage extends BasePage {
       throw new Error("Ticket ID is required to cancel ticket");
     }
 
-    this.page.once("dialog", async (dialog) => {
-      await dialog.accept();
-    });
-
     await this.getCancelButtonLocator(ticketInfo.id).click();
+
+    const dialogHandler = async (dialog: any) => {
+      await dialog.accept();
+      this.page.off("dialog", dialogHandler);
+    };
+    this.page.on("dialog", dialogHandler);
+
     await this.page.waitForLoadState("networkidle");
   }
 

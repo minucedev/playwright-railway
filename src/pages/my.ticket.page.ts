@@ -12,62 +12,34 @@ export class MyTicketPage extends BasePage {
     this.ticketTable = page.getByRole("table");
   }
 
-  private getActiveTicketRows(): Locator {
-    return this.ticketTable.getByRole("row").filter({
-      has: this.page.getByRole("button", { name: "Cancel" }),
-    });
-  }
-
-  async getTicketCount(): Promise<number> {
-    return await this.getActiveTicketRows().count();
-  }
-
-  private getTicketRow(ticketInfo: Partial<BookTicketData>): Locator {
-    let row = this.getActiveTicketRows();
-
-    if (ticketInfo.departStation) {
-      row = row.filter({
-        has: this.page.getByRole("cell", {
-          name: ticketInfo.departStation,
-          exact: true,
-        }),
-      });
-    }
-    if (ticketInfo.arriveStation) {
-      row = row.filter({
-        has: this.page.getByRole("cell", {
-          name: ticketInfo.arriveStation,
-          exact: true,
-        }),
-      });
-    }
-    if (ticketInfo.seatType) {
-      row = row.filter({
-        has: this.page.getByRole("cell", {
-          name: ticketInfo.seatType,
-          exact: true,
-        }),
-      });
-    }
-
-    return row.first();
-  }
-
   async cancelTicket(ticketInfo: BookTicketData) {
-    const row = this.getTicketRow(ticketInfo);
+    if (!ticketInfo.id) {
+      throw new Error("Ticket ID is required to cancel ticket");
+    }
 
     this.page.once("dialog", async (dialog) => {
       await dialog.accept();
     });
 
-    await row.getByRole("button", { name: "Cancel" }).click();
+    await this.page
+      .locator(
+        `input[type="button"][value="Cancel"][onclick*="DeleteTicket(${ticketInfo.id})"]`
+      )
+      .click();
     await this.page.waitForLoadState("networkidle");
   }
 
   async verifyTicketRemoved(ticketInfo: BookTicketData) {
-    const row = this.getTicketRow(ticketInfo);
+    if (!ticketInfo.id) {
+      throw new Error("Ticket ID is required to verify ticket removal");
+    }
+
+    // Check that the Cancel button with the ID no longer exists
+    const cancelButton = this.page.locator(
+      `input[type="button"][value="Cancel"][onclick*="DeleteTicket(${ticketInfo.id})"]`
+    );
     await expect(
-      row,
+      cancelButton,
       "Canceled ticket should not exist in active tickets"
     ).toHaveCount(0);
   }

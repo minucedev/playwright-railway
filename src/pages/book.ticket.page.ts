@@ -28,7 +28,7 @@ export class BookTicketPage extends BasePage {
     return this.page.locator(`select[name="${name}"]`);
   }
 
-  async bookTicket(data: BookTicketData): Promise<string> {
+  async bookTicket(data: BookTicketData): Promise<void> {
     let selectedDate: string;
 
     if (data.date) {
@@ -55,7 +55,13 @@ export class BookTicketPage extends BasePage {
       data.ticketAmount
     );
     await this.bookTicketButton.click();
-    return selectedDate;
+    await this.page.waitForLoadState("networkidle");
+
+    // Extract ticket ID from URL after booking
+    const ticketId = this.getTicketIdFromUrl();
+    if (ticketId) {
+      data.id = ticketId;
+    }
   }
 
   async verifySuccessMessage() {
@@ -65,36 +71,9 @@ export class BookTicketPage extends BasePage {
     ).toBeVisible();
   }
 
-  private async getCellByHeader(headerText: string): Promise<Locator> {
-    const headers = this.confirmBookedTicketTable.getByRole("columnheader");
-    const dataRow = this.confirmBookedTicketTable.getByRole("row").last();
-    const headerCount = await headers.count();
-
-    for (let i = 0; i < headerCount; i++) {
-      const text = await headers.nth(i).textContent();
-      if (text?.trim() === headerText) {
-        return dataRow.getByRole("cell").nth(i);
-      }
-    }
-
-    throw new Error(`Column with header "${headerText}" not found`);
-  }
-
-  async verifyData(header: string, value: string) {
-    const cell = await this.getCellByHeader(header);
-    await expect(cell, `${header} should be "${value}"`).toHaveText(value);
-  }
-
-  async verifyBookingTicketInfo(expectedData: BookTicketData) {
-    const fields = [
-      { header: "Depart Station", key: "departStation" as const },
-      { header: "Arrive Station", key: "arriveStation" as const },
-      { header: "Seat Type", key: "seatType" as const },
-      { header: "Amount", key: "ticketAmount" as const },
-    ];
-
-    for (const { header, key } of fields) {
-      await this.verifyData(header, expectedData[key]);
-    }
+  private getTicketIdFromUrl(): string | undefined {
+    const url = this.page.url();
+    const urlParams = new URLSearchParams(url.split("?")[1]);
+    return urlParams.get("id") || undefined;
   }
 }

@@ -12,6 +12,12 @@ export class MyTicketPage extends BasePage {
     this.ticketTable = page.getByRole("table");
   }
 
+  private getCancelButtonLocator(ticketId: string): Locator {
+    return this.page.locator(
+      `input[type="button"][value="Cancel"][onclick*="DeleteTicket(${ticketId})"]`
+    );
+  }
+
   async cancelTicket(ticketInfo: BookTicketData) {
     if (!ticketInfo.id) {
       throw new Error("Ticket ID is required to cancel ticket");
@@ -21,11 +27,7 @@ export class MyTicketPage extends BasePage {
       await dialog.accept();
     });
 
-    await this.page
-      .locator(
-        `input[type="button"][value="Cancel"][onclick*="DeleteTicket(${ticketInfo.id})"]`
-      )
-      .click();
+    await this.getCancelButtonLocator(ticketInfo.id).click();
     await this.page.waitForLoadState("networkidle");
   }
 
@@ -35,9 +37,7 @@ export class MyTicketPage extends BasePage {
     }
 
     // Check that the Cancel button with the ID no longer exists
-    const cancelButton = this.page.locator(
-      `input[type="button"][value="Cancel"][onclick*="DeleteTicket(${ticketInfo.id})"]`
-    );
+    const cancelButton = this.getCancelButtonLocator(ticketInfo.id);
     await expect(
       cancelButton,
       "Canceled ticket should not exist in active tickets"

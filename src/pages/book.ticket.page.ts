@@ -58,10 +58,7 @@ export class BookTicketPage extends BasePage {
     await this.page.waitForLoadState("networkidle");
 
     // Extract ticket ID from URL after booking
-    const ticketId = this.getTicketIdFromUrl();
-    if (ticketId) {
-      data.id = ticketId;
-    }
+    data.id = this.getTicketIdFromUrl();
   }
 
   async verifySuccessMessage() {
@@ -71,9 +68,13 @@ export class BookTicketPage extends BasePage {
     ).toBeVisible();
   }
 
-  private getTicketIdFromUrl(): string | undefined {
+  private getTicketIdFromUrl(): string {
     const url = this.page.url();
     const urlParams = new URLSearchParams(url.split("?")[1]);
-    return urlParams.get("id") || undefined;
+    const ticketId = urlParams.get("id");
+    if (!ticketId) {
+      throw new Error("Ticket ID not found in URL");
+    }
+    return ticketId;
   }
 }

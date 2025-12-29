@@ -18,9 +18,12 @@ export class LoginPage extends BasePage {
     this.errorMessage = page.locator("p.message.error.LoginForm");
   }
 
-  async fillLoginForm(user: User) {
-    await this.emailInput.fill(user.username);
-    await this.passwordInput.fill(user.password);
+  async fillUsername(username: string) {
+    await this.emailInput.fill(username);
+  }
+
+  async fillPassword(password: string) {
+    await this.passwordInput.fill(password);
   }
 
   async submitLogin() {
@@ -28,7 +31,8 @@ export class LoginPage extends BasePage {
   }
 
   async login(user: User) {
-    await this.fillLoginForm(user);
+    await this.fillUsername(user.username);
+    await this.fillPassword(user.password);
     await this.submitLogin();
     await this.page.waitForLoadState("networkidle");
   }

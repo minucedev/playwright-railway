@@ -35,11 +35,20 @@ export class RegisterPage extends BasePage {
     this.pidValidationError = page.locator('label[for="pid"].validation-error');
   }
 
-  async fillRegistrationForm(user: RegisterUser) {
-    await this.emailInput.fill(user.email);
-    await this.passwordInput.fill(user.password);
-    await this.confirmPasswordInput.fill(user.confirmPassword);
-    await this.pidInput.fill(user.pid);
+  async fillEmail(email: string) {
+    await this.emailInput.fill(email);
+  }
+
+  async fillPassword(password: string) {
+    await this.passwordInput.fill(password);
+  }
+
+  async fillConfirmPassword(confirmPassword: string) {
+    await this.confirmPasswordInput.fill(confirmPassword);
+  }
+
+  async fillPid(pid: string) {
+    await this.pidInput.fill(pid);
   }
 
   async submitRegistration() {
@@ -47,7 +56,10 @@ export class RegisterPage extends BasePage {
   }
 
   async register(user: RegisterUser) {
-    await this.fillRegistrationForm(user);
+    await this.fillEmail(user.email);
+    await this.fillPassword(user.password);
+    await this.fillConfirmPassword(user.confirmPassword);
+    await this.fillPid(user.pid);
     await this.submitRegistration();
   }
 

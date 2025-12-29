@@ -4,4 +4,5 @@ export type BookTicketData = {
   arriveStation: string;
   seatType: string;
   ticketAmount: string;
+  id?: string;
 };

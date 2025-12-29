@@ -26,7 +26,7 @@ export const pages: Record<PageRoute, PageConfig> = {
   },
   [PageRoute.MY_TICKET]: {
     path: "/Page/ManageTicket.cshtml",
-    label: "My Ticket",
+    label: "My ticket",
   },
   [PageRoute.CHANGE_PASSWORD]: {
     path: "/Account/ChangePassword.cshtml",

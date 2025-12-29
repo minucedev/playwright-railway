@@ -1,16 +1,10 @@
 import { expect } from "@playwright/test";
 import type { Page, Locator } from "@playwright/test";
+import { BasePage } from "./base.page";
 import { Messages } from "../utils/messages.config";
+import type { RegisterUser } from "../types/playwright.types";
 
-export type RegisterUser = {
-  email: string;
-  password: string;
-  confirmPassword: string;
-  pid: string;
-};
-
-export class RegisterPage {
-  readonly page: Page;
+export class RegisterPage extends BasePage {
   readonly emailInput: Locator;
   readonly passwordInput: Locator;
   readonly confirmPasswordInput: Locator;
@@ -22,7 +16,7 @@ export class RegisterPage {
   readonly pidValidationError: Locator;
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
     this.emailInput = page.getByLabel("Email", { exact: false });
     this.passwordInput = page.getByLabel("Password", { exact: false }).first();
     this.confirmPasswordInput = page.getByLabel("Confirm Password", {

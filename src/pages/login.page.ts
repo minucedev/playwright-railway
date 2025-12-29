@@ -30,6 +30,7 @@ export class LoginPage extends BasePage {
   async login(user: User) {
     await this.fillLoginForm(user);
     await this.submitLogin();
+    await this.page.waitForLoadState("networkidle");
   }
 
   async loginMultipleTimes(user: User, times: number, delay: number = 500) {

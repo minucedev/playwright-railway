@@ -1,7 +1,6 @@
 import { expect } from "@playwright/test";
 import type { Page, Locator } from "@playwright/test";
 import { BasePage } from "./base.page";
-import type { BookTicketData } from "../types/playwright.types";
 
 export class MyTicketPage extends BasePage {
   readonly ticketTable: Locator;
@@ -13,9 +12,7 @@ export class MyTicketPage extends BasePage {
   }
 
   private getCancelButtonLocator(ticketId: string): Locator {
-    return this.page
-      .getByRole("button", { name: "Cancel" })
-      .filter({ has: this.page.locator(`[onclick*="${ticketId}"]`) });
+    return this.page.locator(`input[type="button"][value="Cancel"][onclick*="DeleteTicket(${ticketId})"]`);
   }
 
   async cancelTicket(ticketId: string) {
@@ -28,7 +25,6 @@ export class MyTicketPage extends BasePage {
   }
 
   async verifyTicketRemoved(ticketId: string) {
-    // Check that the Cancel button with the ID no longer exists
     const cancelButton = this.getCancelButtonLocator(ticketId);
     await expect(
       cancelButton,

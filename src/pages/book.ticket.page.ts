@@ -77,4 +77,51 @@ export class BookTicketPage extends BasePage {
     }
     return ticketId;
   }
+
+  /**
+   * Gets the cell value by header name from the confirmation table.
+   * @param headerText - The header text to find.
+   * @returns Locator for the cell.
+   */
+  private async getCellByHeader(headerText: string): Promise<Locator> {
+    const headers = this.confirmBookedTicketTable.getByRole("columnheader");
+    const dataRow = this.confirmBookedTicketTable.getByRole("row").last();
+    const headerCount = await headers.count();
+
+    for (let i = 0; i < headerCount; i++) {
+      const text = await headers.nth(i).textContent();
+      if (text?.trim() === headerText) {
+        return dataRow.getByRole("cell").nth(i);
+      }
+    }
+
+    throw new Error(`Column with header "${headerText}" not found`);
+  }
+
+  /**
+   * Verifies a single data cell matches the expected value.
+   * @param header - The header name.
+   * @param value - The expected value.
+   */
+  async verifyData(header: string, value: string) {
+    const cell = await this.getCellByHeader(header);
+    await expect(cell, `${header} should be "${value}"`).toHaveText(value);
+  }
+
+  /**
+   * Verifies all booking ticket information matches the expected data.
+   * @param expectedData - The expected booking data.
+   */
+  async verifyBookingTicketInfo(expectedData: BookTicketData) {
+    const fields = [
+      { header: "Depart Station", key: "departStation" as const },
+      { header: "Arrive Station", key: "arriveStation" as const },
+      { header: "Seat Type", key: "seatType" as const },
+      { header: "Amount", key: "ticketAmount" as const },
+    ];
+
+    for (const { header, key } of fields) {
+      await this.verifyData(header, expectedData[key]);
+    }
+  }
 }

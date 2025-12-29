@@ -1,11 +1,7 @@
 import { expect } from "@playwright/test";
 import type { Page, Locator } from "@playwright/test";
 import { BasePage } from "./base.page";
-
-export type ChangePasswordData = {
-  currentPassword: string;
-  newPassword: string;
-};
+import type { ChangePasswordData } from "../types/playwright.types";
 
 export class ChangePasswordPage extends BasePage {
   readonly currentPasswordInput: Locator;

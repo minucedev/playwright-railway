@@ -1,5 +1,5 @@
 import { generateEmail } from "../utils/random.data";
-import type { RegisterUser } from "../pages/register.page";
+import type { RegisterUser } from "../types/playwright.types";
 
 export type User = {
   username: string;

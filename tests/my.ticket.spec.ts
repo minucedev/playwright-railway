@@ -27,11 +27,11 @@ test.describe("My Ticket Functionality", () => {
     });
 
     await test.step("Cancel the booked ticket", async () => {
-      await myTicketPage.cancelTicket(validTicket);
+      await myTicketPage.cancelTicket(validTicket.id!);
     });
 
     await test.step("Verify the canceled ticket is removed", async () => {
-      await myTicketPage.verifyTicketRemoved(validTicket);
+      await myTicketPage.verifyTicketRemoved(validTicket.id!);
     });
   });
 });

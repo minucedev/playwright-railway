@@ -46,4 +46,36 @@ export class BasePage {
       await expect(this.header, "Page header should be visible").toBeVisible();
     }
   }
+
+  async verifyMessage(
+    locator: Locator,
+    expectedMessage: string,
+    options?: { exact?: boolean }
+  ) {
+    await expect(locator).toBeVisible();
+    if (options?.exact) {
+      await expect(
+        locator,
+        `Message should be exactly "${expectedMessage}"`
+      ).toHaveText(expectedMessage);
+    } else {
+      await expect(
+        locator,
+        `Message should contain "${expectedMessage}"`
+      ).toContainText(expectedMessage);
+    }
+  }
+
+  async verifyNotVisible(locator: Locator, customMessage?: string) {
+    const message = customMessage || "Element should not be visible";
+    await expect(locator, message).not.toBeVisible();
+  }
+
+  async verifyFormVisible(fields: Array<{ locator: Locator; name: string }>) {
+    for (const field of fields) {
+      await expect
+        .soft(field.locator, `${field.name} should be visible`)
+        .toBeVisible();
+    }
+  }
 }

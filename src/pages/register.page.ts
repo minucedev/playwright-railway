@@ -64,38 +64,21 @@ export class RegisterPage extends BasePage {
   }
 
   async verifyRegistrationFormVisible() {
-    await expect
-      .soft(this.emailInput, "Email input should be visible")
-      .toBeVisible();
-    await expect
-      .soft(this.passwordInput, "Password input should be visible")
-      .toBeVisible();
-    await expect
-      .soft(
-        this.confirmPasswordInput,
-        "Confirm Password input should be visible"
-      )
-      .toBeVisible();
-    await expect
-      .soft(this.pidInput, "PID input should be visible")
-      .toBeVisible();
-    await expect
-      .soft(this.registerButton, "Register button should be visible")
-      .toBeVisible();
+    await this.verifyFormVisible([
+      { locator: this.emailInput, name: "Email input" },
+      { locator: this.passwordInput, name: "Password input" },
+      { locator: this.confirmPasswordInput, name: "Confirm Password input" },
+      { locator: this.pidInput, name: "PID input" },
+      { locator: this.registerButton, name: "Register button" },
+    ]);
   }
 
   async verifySuccessMessage(expectedMessage: string) {
-    await expect(
-      this.successMessage,
-      `Success message should contain "${expectedMessage}"`
-    ).toContainText(expectedMessage);
+    await this.verifyMessage(this.successMessage, expectedMessage);
   }
 
   async verifyErrorMessage(expectedMessage: string) {
-    await expect(
-      this.errorMessage,
-      `Error message should contain "${expectedMessage}"`
-    ).toContainText(expectedMessage);
+    await this.verifyMessage(this.errorMessage, expectedMessage);
   }
 
   async verifyFieldValidationErrors() {

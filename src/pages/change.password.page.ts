@@ -45,16 +45,10 @@ export class ChangePasswordPage extends BasePage {
   }
 
   async verifySuccessMessage(expectedMessage: string) {
-    await expect(
-      this.successMessage,
-      `Success message should contain "${expectedMessage}"`
-    ).toContainText(expectedMessage);
+    await this.verifyMessage(this.successMessage, expectedMessage);
   }
 
   async verifyErrorMessage(expectedMessage: string) {
-    await expect(
-      this.errorMessage,
-      `Error message should contain "${expectedMessage}"`
-    ).toContainText(expectedMessage);
+    await this.verifyMessage(this.errorMessage, expectedMessage);
   }
 }

@@ -48,36 +48,27 @@ export class LoginPage extends BasePage {
   }
 
   async verifyLoginFormVisible() {
-    await expect
-      .soft(this.emailInput, "Email input should be visible")
-      .toBeVisible();
-    await expect
-      .soft(this.passwordInput, "Password input should be visible")
-      .toBeVisible();
-    await expect
-      .soft(this.loginButton, "Login button should be visible")
-      .toBeVisible();
+    await this.verifyFormVisible([
+      { locator: this.emailInput, name: "Email input" },
+      { locator: this.passwordInput, name: "Password input" },
+      { locator: this.loginButton, name: "Login button" },
+    ]);
   }
 
   async verifyErrorMessageExactly(expectedMessage: string) {
-    await expect(this.errorMessage).toBeVisible();
-    await expect(
-      this.errorMessage,
-      `Error message should be exactly "${expectedMessage}"`
-    ).toHaveText(expectedMessage);
+    await this.verifyMessage(this.errorMessage, expectedMessage, {
+      exact: true,
+    });
   }
 
   async verifyLockoutMessage(attempts: number) {
     const expectedMessage = Messages.getLockoutMessage(attempts);
-    await expect(
-      this.errorMessage,
-      `Lockout message should contain "${expectedMessage}"`
-    ).toContainText(expectedMessage);
+    await this.verifyMessage(this.errorMessage, expectedMessage);
   }
   async verifyNoErrorMessage() {
-    await expect(
+    await this.verifyNotVisible(
       this.errorMessage,
       "Error message should not be visible"
-    ).not.toBeVisible();
+    );
   }
 }
